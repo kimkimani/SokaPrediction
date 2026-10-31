@@ -1,0 +1,29 @@
+# Robots.txt for SOKAPREDICTIONS (https://sokapredictions.com)
+# Crawl directives for search engine bots and AI discovery agents
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /*?*payment=
+Disallow: /*?*ref=
+
+# AI Crawlers & LLM Scrapers
+User-agent: GPTBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: Google-Extended
+Allow: /
+Allow: /llms.txt
+
+# Sitemaps
+Sitemap: https://sokapredictions.com/sitemaps.xml
+Sitemap: https://sokapredictions.com/sitemap.xml

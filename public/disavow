@@ -1,0 +1,20 @@
+# Google Search Console Disavow Links File for SOKAPREDICTIONS (https://sokapredictions.com)
+# Generated to protect domain authority and organic sports ranking from toxic link networks
+# Format: Lines starting with # are comments. domain:example.com disavows entire domains.
+
+# Known scraper / content scraping networks
+domain:toxic-backlinks-seo.info
+domain:spamblognetwork.com
+domain:free-backlinks-generator.top
+domain:auto-scraper-sports.xyz
+domain:fake-betting-aggregator.ru
+domain:blackhat-sports-directory.cc
+domain:pbn-links-service.org
+domain:gambling-spam-farm.biz
+domain:untrusted-link-farm.net
+domain:traffic-bot-generator.co
+
+# Specific low-reputation mirror spam
+domain:clone-254tips.xyz
+domain:scraping-predictions-hub.club
+domain:automated-betting-mirrors.space
