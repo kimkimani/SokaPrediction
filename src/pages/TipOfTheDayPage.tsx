@@ -143,7 +143,7 @@ export const TipOfTheDayPage: React.FC<TipOfTheDayPageProps> = ({
             </div>
             <div>
               <h2 className="text-sm sm:text-base font-extrabold text-gray-900 m-0">
-                Today&apos;s Featured Pick of the Day
+                Today Top Soka Featured Pick of the Day
               </h2>
               <p className="text-[11px] text-gray-500 mt-0.5">
                 Strictly 1 single selection • Selected based on highest statistical confidence score

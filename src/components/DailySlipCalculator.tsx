@@ -24,7 +24,7 @@ export const DailySlipCalculator: React.FC<DailySlipCalculatorProps> = ({ onOpen
             </span>
           </div>
           <p className="text-xs text-gray-600 mb-3 leading-relaxed">
-            Curated 3-match banker ticket for today&apos;s top league games with 88% statistical probability.
+            Selected 3 fixtures ticket of today's top leagues. We have 88% success probability.
           </p>
 
           <div className="mb-3">

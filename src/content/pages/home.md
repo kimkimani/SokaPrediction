@@ -9,7 +9,7 @@ type: "landing"
 fixturesCategory: "today"
 introParagraph: "SOKAPREDICTIONS.com gives you verified match predictions. We have 1X2 market, Over/Under 2.5 goals, Double chance games and Both Teams To Score soka tips. Our tips are updated daily before 08:30 EAT. We realy on selections from to leages and high chance fixtures. Our goal is not to recycle tips but becode the leading footbalf soka predictions platform for all realuble dailly soka based tips."
 listTitle: "Out Today Soka Football Predictions & Tips"
-listSubtitle: "the following are soka prediction matches for our daily tips selections."
+listSubtitle: "The following are soka prediction matches for our daily tips selections."
 tags: ["soka predictions", "football betting predictions", "free tips", "sure soccer tips"]
 ---
 
