@@ -13,6 +13,7 @@ import { MultiDateFixturesSection } from '../components/MultiDateFixturesSection
 import { VipPackagesSection } from '../components/VipPackagesSection';
 import { PremiumOddsSection } from '../components/PremiumOddsSection';
 import { FaqAccordion, FaqItem } from '../components/FaqAccordion';
+import { MarkdownArticleBlock } from '../components/MarkdownArticleBlock';
 import { PageNotFound } from '../components/PageNotFound';
 import { ApiLoadingState } from '../components/ApiLoadingState';
 
@@ -209,16 +210,6 @@ export const DynamicMarkdownPage: React.FC<DynamicMarkdownPageProps> = ({
         </div>
       </div>
 
-      {/* SECTION 1: Top Overview (Spanned from Markdown) */}
-      {resolvedOverviewHtml && (
-        <section className="bg-white rounded-xl border border-gray-200 p-5 md:p-6 shadow-xs">
-          <div
-            className="prose max-w-none text-xs md:text-sm text-gray-700 leading-relaxed space-y-2.5 [&>p]:leading-relaxed [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1"
-            dangerouslySetInnerHTML={{ __html: resolvedOverviewHtml }}
-          />
-        </section>
-      )}
-
       {/* SECTION 2: Multi-Date Categorized Matches Render (4 Days only for competitor pages) */}
       {loadingFixtures ? (
         <div className="bg-white rounded-xl border border-gray-200/90 shadow-xs mb-6">
@@ -253,49 +244,19 @@ export const DynamicMarkdownPage: React.FC<DynamicMarkdownPageProps> = ({
         />
       )}
 
-      {/* SECTION 5: Middle Strategy & Analytical Breakdown */}
-      {strategySections.map((sec) => (
-        <section
-          key={sec.id}
-          className="bg-white border border-gray-200 rounded-xl p-5 md:p-6 shadow-xs"
-        >
-          <div className="flex items-center gap-2.5 pb-2 mb-3 border-b border-gray-100">
-            <div className="w-8 h-8 rounded-lg bg-purple-50 text-[#8D0E83] flex items-center justify-center font-bold text-sm">
-              <i className="fas fa-chart-pie"></i>
-            </div>
-            <h2 className="text-base md:text-lg font-black text-gray-900 m-0">
-              {sec.title}
-            </h2>
-          </div>
-          <div
-            className="prose max-w-none text-xs md:text-sm text-gray-700 leading-relaxed space-y-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:space-y-1 [&>blockquote]:border-l-4 [&>blockquote]:border-[#8D0E83] [&>blockquote]:bg-purple-50/50 [&>blockquote]:p-3 [&>blockquote]:rounded-r-lg [&>blockquote]:italic [&>blockquote]:text-[#630A5C]"
-            dangerouslySetInnerHTML={{ __html: sec.htmlContent }}
-          />
-        </section>
-      ))}
+      {/* SECTION 5: Unified Editorial Content in One Block Section with H2 to H3 hierarchy */}
+      <MarkdownArticleBlock
+        pageData={pageData}
+        sections={resolvedSections}
+        overviewHtml={resolvedOverviewHtml}
+      />
 
-      {/* SECTION 6: General Content Sections */}
-      {generalSections.map((sec) => (
-        <section
-          key={sec.id}
-          className="bg-white border border-gray-200 rounded-xl p-5 md:p-6 shadow-xs"
-        >
-          <h2 className="text-base font-black text-gray-900 mb-2.5 border-b pb-2 border-gray-100">
-            {sec.title}
-          </h2>
-          <div
-            className="prose max-w-none text-xs md:text-sm text-gray-700 leading-relaxed space-y-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1"
-            dangerouslySetInnerHTML={{ __html: sec.htmlContent }}
-          />
-        </section>
-      ))}
-
-      {/* SECTION 7: Interactive FAQ Accordion from Markdown */}
+      {/* SECTION 6: Interactive FAQ Accordion from Markdown */}
       {collectedFaqs.length > 0 && (
         <FaqAccordion
           faqs={collectedFaqs}
-          title={frontmatter.faqTitle || `${frontmatter.shortTitle || frontmatter.title} FAQs`}
-          subtitle="Frequently asked questions, statistical methodology, and betting strategy for this prediction market."
+          title={frontmatter.faqTitle || pageData.faqTitle || `${frontmatter.shortTitle || frontmatter.title} FAQs`}
+          subtitle={frontmatter.faqSubtitle || pageData.faqSubtitle}
         />
       )}
     </div>

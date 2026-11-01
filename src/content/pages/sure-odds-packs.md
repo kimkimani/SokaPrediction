@@ -1,5 +1,5 @@
 ---
-title: "Soka Sure Premium Odds Shortlists | SOKAPREDICTIONS"
+title: "Soka Sure Premium Odds Shortlists"
 displayTitle: "Premium Odds Shortlists & Micro-Packs"
 description: "Curated football odds shortlists delivered fast. Pick your risk profile: 2+ Sure Odds (KES 150), 3+ Odds (KES 200), 4+ Tips (KES 250), or 5+ High Value."
 keywords: "sure odds, 2+ odds, 4+ tips, soka predictions odds, premium odds packs"

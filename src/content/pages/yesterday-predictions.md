@@ -1,5 +1,5 @@
 ---
-title: "Yesterday Football Results & Prediction History | SOKAPREDICTIONS"
+title: "Yesterday Football Results & Prediction History"
 displayTitle: "Yesterday Match Results & Predictions History"
 description: "Verify our yesterday's football predictions and historical winning rate. Full transparency with verified final scores and won/lost evaluation."
 keywords: "yesterday predictions, match results, soka predictions results, yesterday football results, prediction history"

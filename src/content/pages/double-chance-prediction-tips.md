@@ -1,5 +1,5 @@
 ---
-title: "Double Chance Football Predictions Today (1X, X2, 12) | SOKAPREDICTIONS"
+title: "Double Chance Football Predictions Today (1X, X2, 12)"
 displayTitle: "Double Chance Football Predictions Today (1X, X2, 12)"
 description: "Ultra-safe Double Chance football predictions today. Secure your accumulators with two-outcome coverage (Home/Draw or Away/Draw) boasting an 88%+ win rate."
 keywords: "double chance predictions, double chance tips, 1x predictions, x2 tips, soka predictions double chance"

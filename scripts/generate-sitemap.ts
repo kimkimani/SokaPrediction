@@ -8,7 +8,7 @@ export interface SitemapEntry {
   priority: string;
 }
 
-const BASE_URL = 'https://sokapredictions.com';
+const BASE_URL = 'https://www.sokapredictions.com';
 const TODAY_STR = new Date().toISOString().split('T')[0];
 
 function parseFrontmatter(content: string): Record<string, string> {

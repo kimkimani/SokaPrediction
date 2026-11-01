@@ -1,5 +1,5 @@
 ---
-title: "Mozzart Super Grand Jackpot Prediction 20 Games | SOKAPREDICTIONS"
+title: "Mozzart Super Grand Jackpot Prediction 20 Games"
 displayTitle: "Mozzart Super Grand Jackpot Predictions (20 Games)"
 description: "Get accurate Mozzart Super Grand Jackpot predictions for all 20 matches. Expert analysis, double-chance hedges, and KES 200 Million pool tips for KES 50 entry."
 keywords: "mozzart grand jackpot prediction, mozzart 20 games, mozzart jackpot tips, soka predictions mozzart, mozzart super grand predictions"

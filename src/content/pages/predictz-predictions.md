@@ -1,5 +1,5 @@
 ---
-title: "PredictZ Football Predictions & Form Analysis Today | SOKAPREDICTIONS"
+title: "PredictZ Football Predictions & Form Analysis Today"
 displayTitle: "PredictZ Football Predictions & Head-to-Head Analysis"
 shortTitle: "PredictZ Tips"
 badgeText: "H2H Engine"

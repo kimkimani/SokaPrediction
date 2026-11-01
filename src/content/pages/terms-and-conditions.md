@@ -1,5 +1,5 @@
 ---
-title: "Terms and Conditions | SOKAPREDICTIONS"
+title: "Terms and Conditions"
 displayTitle: "Terms and Conditions of Service"
 description: "Review the terms and conditions governing the use of SokaPredictions sports analytics, VIP subscriptions, and automated M-Pesa prediction delivery."
 keywords: "terms and conditions, soka predictions terms, user agreement, legal"

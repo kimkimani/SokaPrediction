@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PredictionFixture } from '../types';
 import { FixtureCard } from '../components/FixtureCard';
 import { FaqAccordion, FaqItem } from '../components/FaqAccordion';
+import { MarkdownArticleBlock } from '../components/MarkdownArticleBlock';
 import { ApiLoadingState } from '../components/ApiLoadingState';
 
 import { MarkdownPageManager } from '../services/markdownManager';
@@ -98,12 +99,15 @@ export const FreeTipsPage: React.FC<FreeTipsPageProps> = ({
         )}
       </div>
 
+      {/* Editorial Content / Meat of the Article in One Block Section from free-predictions.md */}
+      <MarkdownArticleBlock pageData={pageData} />
+
       {/* Free Tips FAQ Accordion from free-predictions.md */}
       {pageData?.faqs && pageData.faqs.length > 0 && (
         <FaqAccordion
           faqs={pageData.faqs}
-          title={pageData.frontmatter.faqTitle || "Free Football Predictions - FAQs"}
-          subtitle="Frequently asked questions about our free daily selections, accuracy rates, and bankroll advice."
+          title={pageData.frontmatter.faqTitle || pageData.faqTitle || "Free Football Predictions - FAQs"}
+          subtitle={pageData.frontmatter.faqSubtitle || pageData.faqSubtitle}
         />
       )}
     </div>

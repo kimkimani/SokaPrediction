@@ -16,7 +16,7 @@ interface FaqAccordionProps {
 export const FaqAccordion: React.FC<FaqAccordionProps> = ({
   faqs,
   title = 'Frequently Asked Questions (FAQ)',
-  subtitle = 'Find quick answers to common questions about Soka Predictions, daily soccer predictions, VIP access, and M-Pesa payments.',
+  subtitle,
   defaultOpenIndex = 0,
 }) => {
   const [openIndices, setOpenIndices] = useState<number[]>(() => {

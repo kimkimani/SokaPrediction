@@ -1,5 +1,5 @@
 ---
-title: "Sokapedia Predictions & Match Tips Today | SOKAPREDICTIONS"
+title: "Sokapedia Predictions & Match Tips Today"
 displayTitle: "Sokapedia Match Predictions & Verified Banker Bets"
 shortTitle: "Sokapedia Tips"
 badgeText: "Form Banker"

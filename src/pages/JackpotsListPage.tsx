@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { JackpotItem } from '../types';
 import { FaqAccordion } from '../components/FaqAccordion';
+import { MarkdownArticleBlock } from '../components/MarkdownArticleBlock';
 import { ApiLoadingState } from '../components/ApiLoadingState';
 
 interface JackpotsListPageProps {
@@ -176,12 +177,15 @@ export const JackpotsListPage: React.FC<JackpotsListPageProps> = ({
         </div>
       )}
 
+      {/* Editorial Content / Meat of the Article in One Block Section from jackpot-list.md */}
+      <MarkdownArticleBlock pageData={pageData} />
+
       {/* Kenyan Jackpots FAQs from jackpot-list.md */}
       {pageData?.faqs && pageData.faqs.length > 0 && (
         <FaqAccordion
           faqs={pageData.faqs}
-          title={pageData.frontmatter.faqTitle || "Kenyan Football Jackpots - Frequently Asked Questions"}
-          subtitle="Key insights on bonus rules, double-chance hedging strategies, and kickoff schedules."
+          title={pageData.frontmatter.faqTitle || pageData.faqTitle || "Kenyan Football Jackpots - Frequently Asked Questions"}
+          subtitle={pageData.frontmatter.faqSubtitle || pageData.faqSubtitle}
         />
       )}
     </div>

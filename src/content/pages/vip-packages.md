@@ -1,5 +1,5 @@
 ---
-title: "VIP Prediction Packages & Premium Tips | SOKAPREDICTIONS"
+title: "VIP Prediction Packages & Premium Tips"
 displayTitle: "VIP Prediction Packages & Winning Slips"
 description: "Subscribe to SokaPredictions VIP packages. High-confidence daily 5+ odds slips, jackpot combinations, and instant automated SMS & WhatsApp dispatch."
 keywords: "vip tips, vip prediction packages, sure vip tips, soka predictions vip, mpesa vip tips"

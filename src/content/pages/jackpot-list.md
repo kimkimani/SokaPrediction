@@ -1,5 +1,5 @@
 ---
-title: "All Kenya Football Jackpot Predictions & Tips | SOKAPREDICTIONS"
+title: "All Kenya Football Jackpot Predictions & Tips"
 displayTitle: "Kenyan Football Jackpot Predictions & Coupons"
 description: "Compare and explore all 5 active Kenyan football jackpots: SportPesa Mega (17), Betika Midweek (15), Mozzart Grand (20), SportPesa Midweek (13), and Mozzart Daily (16)."
 keywords: "kenya jackpot predictions, sportpesa mega jackpot, betika midweek jackpot, mozzart grand jackpot, soka predictions jackpots hub"

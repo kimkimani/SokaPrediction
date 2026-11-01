@@ -1,5 +1,5 @@
 ---
-title: "Both Teams To Score (GG/BTTS) Predictions Today | SOKAPREDICTIONS"
+title: "Both Teams To Score (GG/BTTS) Predictions Today"
 displayTitle: "Both Teams to Score (GG / BTTS) Predictions Today"
 description: "Accurate Both Teams to Score (GG) predictions for today's football matches. High-value BTTS tips analyzed using attacking conversion and defensive vulnerabilities."
 keywords: "btts predictions today, gg tips, both teams to score predictions, soka predictions gg, btts sure wins"

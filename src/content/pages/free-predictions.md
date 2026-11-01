@@ -1,5 +1,5 @@
 ---
-title: "Free Football Predictions and Daily Tips | SOKAPREDICTIONS"
+title: "Free Football Predictions and Daily Tips"
 displayTitle: "Free Sure Tips & Daily Football Predictions"
 description: "Get 100% free daily football predictions right now. Well-analyzed soccer tips covering 1X2, Over 2.5, BTTS, and double chance from top leagues."
 keywords: "free tips, free football predictions, free sure tips, soka predictions free"

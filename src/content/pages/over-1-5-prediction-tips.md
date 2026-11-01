@@ -1,5 +1,5 @@
 ---
-title: "Over 1.5 Goals Predictions and Betting Tips Today | SOKAPREDICTIONS"
+title: "Over 1.5 Goals Predictions and Betting Tips Today"
 displayTitle: "Over 1.5 Goals Football Predictions Today"
 description: "Get verified Over 1.5 goals predictions today. Low-risk, high-probability football selections boasting a 92%+ win rate across European and global leagues."
 keywords: "over 1.5 predictions, over 1.5 tips today, over 1.5 sure tips, soka predictions over 1.5, soccer over 1.5 goals tips"

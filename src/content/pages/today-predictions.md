@@ -1,5 +1,5 @@
 ---
-title: "Today's Football Predictions and Betting Tips | SOKAPREDICTIONS"
+title: "Today's Football Predictions and Betting Tips"
 displayTitle: "Today's Football Predictions & Betting Tips"
 description: "Get verified today's football predictions and betting tips. Daily match schedules, expert 1X2, Over 2.5, BTTS, and double chance selections in East Africa Time (EAT)."
 keywords: "today predictions, football tips today, soccer predictions today, soka predictions today, sure bet prediction today"

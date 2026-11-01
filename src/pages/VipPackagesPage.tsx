@@ -2,6 +2,7 @@ import React from 'react';
 import { VipPackage } from '../types';
 import { VipPackagesSection } from '../components/VipPackagesSection';
 import { FaqAccordion, FaqItem } from '../components/FaqAccordion';
+import { MarkdownArticleBlock } from '../components/MarkdownArticleBlock';
 import { ApiLoadingState } from '../components/ApiLoadingState';
 
 interface VipPackagesPageProps {
@@ -67,56 +68,15 @@ export const VipPackagesPage: React.FC<VipPackagesPageProps> = ({
         />
       )}
 
-      {/* Why Choose VIP */}
-      <div className="bg-white p-6 md:p-8 rounded-2xl border border-gray-200 shadow-xs space-y-4">
-        <h2 className="text-base sm:text-lg font-black text-gray-900">
-          The VIP Advantage: How It Works
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
-            <div className="w-8 h-8 rounded-lg bg-[#8D0E83] text-white flex items-center justify-center text-sm font-bold mb-2">
-              1
-            </div>
-            <strong className="text-xs font-bold text-gray-900 block mb-1">
-              Automated M-Pesa STK Push
-            </strong>
-            <p className="text-xs text-gray-600">
-              Select your package, enter your Safaricom or Airtel phone number, and enter your PIN. Activation takes under 10 seconds.
-            </p>
-          </div>
-
-          <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
-            <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-sm font-bold mb-2">
-              2
-            </div>
-            <strong className="text-xs font-bold text-gray-900 block mb-1">
-              Multi-Channel Delivery
-            </strong>
-            <p className="text-xs text-gray-600">
-              Receive your daily tips via SMS directly to your phone, plus access to our private VIP Telegram community.
-            </p>
-          </div>
-
-          <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
-            <div className="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center text-sm font-bold mb-2">
-              3
-            </div>
-            <strong className="text-xs font-bold text-gray-900 block mb-1">
-              Guaranteed Coverage
-            </strong>
-            <p className="text-xs text-gray-600">
-              If any of your daily slips fails during your active subscription period, your plan is automatically extended by 1 full day for free.
-            </p>
-          </div>
-        </div>
-      </div>
+      {/* Editorial Content / Meat of the Article in One Block Section from vip-packages.md */}
+      <MarkdownArticleBlock pageData={pageData} />
 
       {/* VIP FAQs Accordion from vip-packages.md */}
       {pageData?.faqs && pageData.faqs.length > 0 && (
         <FaqAccordion
           faqs={pageData.faqs}
-          title={pageData.frontmatter.faqTitle || "VIP Membership - Frequently Asked Questions"}
-          subtitle="Clear details on subscription tiers, M-Pesa STK push checkout, instant dispatch, and replacement guarantees."
+          title={pageData.frontmatter.faqTitle || pageData.faqTitle || "VIP Membership - Frequently Asked Questions"}
+          subtitle={pageData.frontmatter.faqSubtitle || pageData.faqSubtitle}
         />
       )}
     </div>

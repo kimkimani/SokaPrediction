@@ -1,5 +1,5 @@
 ---
-title: "Over 2.5 Goals Predictions and Betting Tips Today | SOKAPREDICTIONS"
+title: "Over 2.5 Goals Predictions and Betting Tips Today"
 displayTitle: "Over 2.5 Goals Football Predictions Today"
 description: "Get accurate Over 2.5 goals predictions today. High-yield football selections featuring games with 3 or more total goals from top European leagues."
 keywords: "over 2.5 predictions, over 2.5 tips today, over 2.5 sure tips, soka predictions over 2.5"

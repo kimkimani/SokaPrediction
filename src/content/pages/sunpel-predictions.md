@@ -1,5 +1,5 @@
 ---
-title: "Sunpel Predictions & Football Betting Tips Today | SOKAPREDICTIONS"
+title: "Sunpel Predictions & Football Betting Tips Today"
 displayTitle: "Sunpel Football Predictions & Daily Banker Tips"
 shortTitle: "Sunpel Predictions"
 badgeText: "88% Hit Rate"

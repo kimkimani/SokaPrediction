@@ -1,5 +1,5 @@
 ---
-title: "1X2 Football Predictions & Home Win Tips Today | SOKAPREDICTIONS"
+title: "1X2 Football Predictions & Home Win Tips Today"
 displayTitle: "1X2 Football Predictions & Home Win Tips Today"
 description: "Accurate 1X2 football predictions and straight home win tips. Backed by home advantage analytics, head-to-head records, and team form data."
 keywords: "1x2 predictions today, straight home win tips, 1x2 sure tips, home win predictions, soka predictions 1x2"

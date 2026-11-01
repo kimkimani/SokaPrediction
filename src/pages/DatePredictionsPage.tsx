@@ -3,6 +3,7 @@ import { PredictionFixture } from '../types';
 import { FixtureCard } from '../components/FixtureCard';
 import { ApiLoadingState } from '../components/ApiLoadingState';
 import { FaqAccordion } from '../components/FaqAccordion';
+import { MarkdownArticleBlock } from '../components/MarkdownArticleBlock';
 import { MarkdownPageManager } from '../services/markdownManager';
 
 interface DatePredictionsPageProps {
@@ -92,12 +93,15 @@ export const DatePredictionsPage: React.FC<DatePredictionsPageProps> = ({
         )}
       </div>
 
+      {/* Editorial Content / Meat of the Article in One Block Section from date markdown file */}
+      <MarkdownArticleBlock pageData={pageData} />
+
       {/* Date Predictions FAQs from markdown file */}
       {pageData?.faqs && pageData.faqs.length > 0 && (
         <FaqAccordion
           faqs={pageData.faqs}
-          title={pageData.frontmatter.faqTitle || `${pageData.frontmatter.shortTitle || pageData.frontmatter.title} - FAQs`}
-          subtitle={`Frequently asked questions regarding ${mode}'s match schedule, probability ratings, and results evaluation.`}
+          title={pageData.frontmatter.faqTitle || pageData.faqTitle || `${pageData.frontmatter.shortTitle || pageData.frontmatter.title} - FAQs`}
+          subtitle={pageData.frontmatter.faqSubtitle || pageData.faqSubtitle}
         />
       )}
     </div>

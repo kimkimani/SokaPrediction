@@ -1,5 +1,5 @@
 ---
-title: "SportPesa Midweek Jackpot Prediction 13 Games | SOKAPREDICTIONS"
+title: "SportPesa Midweek Jackpot Prediction 13 Games"
 displayTitle: "SportPesa Midweek Jackpot Predictions (13 Games)"
 description: "Get accurate SportPesa Midweek Jackpot predictions for all 13 matches. Tactical 1X2 selections, double-chance hedges, and KES 35 Million pool winning strategies."
 keywords: "sportpesa midweek jackpot prediction, sportpesa 13 games, sportpesa midweek tips, soka predictions sportpesa midweek"

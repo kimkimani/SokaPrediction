@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { PredictionFixture } from '../types';
 import { FixtureCard } from '../components/FixtureCard';
 import { FaqAccordion, FaqItem } from '../components/FaqAccordion';
+import { MarkdownArticleBlock } from '../components/MarkdownArticleBlock';
 import { MarkdownPageManager } from '../services/markdownManager';
 import { PageNotFound } from '../components/PageNotFound';
 import { ApiLoadingState } from '../components/ApiLoadingState';
@@ -51,7 +52,7 @@ export const TipOfTheDayPage: React.FC<TipOfTheDayPageProps> = ({
 
   const handleCopyPick = () => {
     if (!pickOfTheDay) return;
-    const shareText = `🎯 SOKAPREDICTIONS BANKER OF THE DAY: ${pickOfTheDay.homeTeam} vs ${pickOfTheDay.awayTeam} | Pick: ${pickOfTheDay.prediction} (Odds: ${pickOfTheDay.odds || '1.65'}) | Confidence: ${pickOfTheDay.confidence}% | Kickoff: ${pickOfTheDay.kickoffTime} EAT https://sokapredictions.com/tip-of-the-day`;
+    const shareText = `🎯 SOKAPREDICTIONS BANKER OF THE DAY: ${pickOfTheDay.homeTeam} vs ${pickOfTheDay.awayTeam} | Pick: ${pickOfTheDay.prediction} (Odds: ${pickOfTheDay.odds || '1.65'}) | Confidence: ${pickOfTheDay.confidence}% | Kickoff: ${pickOfTheDay.kickoffTime} EAT https://www.sokapredictions.com/tip-of-the-day`;
     navigator.clipboard?.writeText(shareText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2200);
@@ -143,7 +144,7 @@ export const TipOfTheDayPage: React.FC<TipOfTheDayPageProps> = ({
             </div>
             <div>
               <h2 className="text-sm sm:text-base font-extrabold text-gray-900 m-0">
-                Today Top Soka Featured Pick of the Day
+                Today&apos;s Featured Pick of the Day
               </h2>
               <p className="text-[11px] text-gray-500 mt-0.5">
                 Strictly 1 single selection • Selected based on highest statistical confidence score
@@ -278,7 +279,7 @@ export const TipOfTheDayPage: React.FC<TipOfTheDayPageProps> = ({
 
                   <a
                     href={`https://wa.me/?text=${encodeURIComponent(
-                      `🎯 SOKAPREDICTIONS Tip of the Day: ${pickOfTheDay.homeTeam} vs ${pickOfTheDay.awayTeam} | Pick: ${pickOfTheDay.prediction} (${oddsDisplay}) | https://sokapredictions.com/tip-of-the-day`
+                      `🎯 SOKAPREDICTIONS Tip of the Day: ${pickOfTheDay.homeTeam} vs ${pickOfTheDay.awayTeam} | Pick: ${pickOfTheDay.prediction} (${oddsDisplay}) | https://www.sokapredictions.com/tip-of-the-day`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -332,67 +333,15 @@ export const TipOfTheDayPage: React.FC<TipOfTheDayPageProps> = ({
         )}
       </section>
 
-      {/* 3. Staking Strategy Guide */}
-      <section className="bg-white rounded-2xl border border-gray-200 p-5 md:p-6 shadow-xs space-y-4">
-        <div className="border-b border-gray-100 pb-3">
-          <h2 className="text-base font-extrabold text-gray-900 m-0 flex items-center gap-2">
-            <i className="fas fa-chart-line text-[#8D0E83]"></i>
-            <span>Professional Single-Bet Staking Strategy</span>
-          </h2>
-          <p className="text-xs text-gray-500 mt-0.5">
-            How disciplined punters turn an 88% win rate into compounding monthly profit
-          </p>
-        </div>
+      {/* 3. Rich Editorial Markdown Content in One Block Section from tip-of-the-day.md */}
+      <MarkdownArticleBlock pageData={pageData} />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
-          <div className="p-4 rounded-xl bg-purple-50/60 border border-purple-100">
-            <div className="w-7 h-7 rounded-lg bg-[#8D0E83] text-white flex items-center justify-center font-bold text-xs mb-2">
-              1
-            </div>
-            <h3 className="font-bold text-gray-900 mb-1">Fixed Flat Staking (3-5%)</h3>
-            <p className="text-gray-600 leading-relaxed text-[11px]">
-              Never risk your full bankroll on a single ticket. Bet exactly 3% to 5% of your betting capital per game to absorb variance smoothly.
-            </p>
-          </div>
-
-          <div className="p-4 rounded-xl bg-emerald-50/60 border border-emerald-100">
-            <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs mb-2">
-              2
-            </div>
-            <h3 className="font-bold text-gray-900 mb-1">Zero Accumulator Creep</h3>
-            <p className="text-gray-600 leading-relaxed text-[11px]">
-              Bookmakers thrive on 10-leg accumulators. Playing our single Banker of the Day as a standalone wager maximizes your mathematical expectancy.
-            </p>
-          </div>
-
-          <div className="p-4 rounded-xl bg-amber-50/60 border border-amber-100">
-            <div className="w-7 h-7 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold text-xs mb-2">
-              3
-            </div>
-            <h3 className="font-bold text-gray-900 mb-1">Early Kickoff Locking</h3>
-            <p className="text-gray-600 leading-relaxed text-[11px]">
-              Lock in your odds as early as possible. Value lines on our daily pick frequently drop as market volume shifts toward the banker.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Rich Editorial Markdown Content (From tip-of-the-day.md if available) */}
-      {pageData?.htmlContent && (
-        <section className="bg-white rounded-2xl border border-gray-200 p-5 md:p-6 shadow-xs">
-          <div
-            className="prose max-w-none text-xs md:text-sm text-gray-600 leading-relaxed space-y-3 [&>h2]:text-base [&>h2]:font-extrabold [&>h2]:text-gray-900 [&>h3]:text-sm [&>h3]:font-bold [&>h3]:text-gray-800 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1.5"
-            dangerouslySetInnerHTML={{ __html: pageData.htmlContent }}
-          />
-        </section>
-      )}
-
-      {/* 5. FAQs Section from tip-of-the-day.md */}
+      {/* 4. FAQs Section from tip-of-the-day.md */}
       {pageData?.faqs && pageData.faqs.length > 0 && (
         <FaqAccordion
           faqs={pageData.faqs}
-          title={pageData.frontmatter.faqTitle || "Frequently Asked Questions About the Tip of the Day"}
-          subtitle="Common questions regarding our banker selection criteria, accuracy rate, and bankroll advice."
+          title={pageData.frontmatter.faqTitle || pageData.faqTitle || "Frequently Asked Questions About the Tip of the Day"}
+          subtitle={pageData.frontmatter.faqSubtitle || pageData.faqSubtitle}
         />
       )}
 

@@ -1,5 +1,5 @@
 ---
-title: "Tip of the Day - Best Single Football Prediction & Banker | SOKAPREDICTIONS"
+title: "Tip of the Day - Best Single Football Prediction & Banker"
 displayTitle: "Tip of the Day - Best Single Football Prediction"
 shortTitle: "Tip of the Day"
 badgeText: "Single High-Confidence Banker Pick"

@@ -67,7 +67,7 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
         </div>
 
         <p className="text-[11px] text-gray-500 mb-3 leading-tight">
-         Soka Tips Today's match accumulator.
+          Today&apos;s real-time match accumulator backed by form algorithms.
         </p>
 
         {/* Matches in Slip */}

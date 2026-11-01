@@ -2,6 +2,7 @@ import React from 'react';
 import { OddsPack } from '../types';
 import { PremiumOddsSection } from '../components/PremiumOddsSection';
 import { FaqAccordion, FaqItem } from '../components/FaqAccordion';
+import { MarkdownArticleBlock } from '../components/MarkdownArticleBlock';
 import { ApiLoadingState } from '../components/ApiLoadingState';
 
 interface SureOddsPageProps {
@@ -69,12 +70,15 @@ export const SureOddsPage: React.FC<SureOddsPageProps> = ({
         />
       )}
 
+      {/* Editorial Content / Meat of the Article in One Block Section from sure-odds-packs.md */}
+      <MarkdownArticleBlock pageData={pageData} />
+
       {/* FAQs from sure-odds-packs.md */}
       {pageData?.faqs && pageData.faqs.length > 0 && (
         <FaqAccordion
           faqs={pageData.faqs}
-          title={pageData.frontmatter.faqTitle || "Sure Odds Packs - FAQs"}
-          subtitle="Frequently asked questions about our odds micro-packs, payout ratios, and delivery."
+          title={pageData.frontmatter.faqTitle || pageData.faqTitle || "Sure Odds Packs - FAQs"}
+          subtitle={pageData.frontmatter.faqSubtitle || pageData.faqSubtitle}
         />
       )}
     </div>

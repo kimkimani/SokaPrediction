@@ -1,5 +1,5 @@
 ---
-title: "Contact Us & WhatsApp VIP Support | SOKAPREDICTIONS"
+title: "Contact Us & WhatsApp VIP Support"
 displayTitle: "Contact SOKA PREDICTIONS Support"
 description: "Get in touch with SokaPredictions customer support. 24/7 direct WhatsApp chat (+254 740 841 375), Telegram channel, and M-Pesa transaction assistance."
 keywords: "contact soka predictions, whatsapp tips kenya, soka predictions phone, customer care"

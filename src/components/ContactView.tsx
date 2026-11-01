@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { FaqAccordion } from './FaqAccordion';
+import { MarkdownArticleBlock } from './MarkdownArticleBlock';
 import { MarkdownPageManager } from '../services/markdownManager';
+import { PageNotFound } from './PageNotFound';
 
 export const ContactView: React.FC = () => {
   const pageData = MarkdownPageManager.getPageByPath('/contact');
-  const faqs = pageData?.faqs || [];
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -13,6 +15,13 @@ export const ContactView: React.FC = () => {
   });
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
+
+  if (!pageData) {
+    return <PageNotFound path="/contact" />;
+  }
+
+  const { frontmatter, faqs = [], sections = [], overviewHtml } = pageData;
+  const editorialSections = sections.filter((s) => s.tag !== 'faq');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,17 +33,29 @@ export const ContactView: React.FC = () => {
   };
 
   return (
-    <div className="py-4 max-w-4xl mx-auto">
-      <div className="mb-6 bg-[#8D0E83] text-white p-6 rounded-2xl shadow-md">
+    <div className="py-4 max-w-4xl mx-auto space-y-6 text-gray-700 text-sm">
+      {/* Hero Header from Front Matter */}
+      <div className="bg-[#8D0E83] text-white p-6 rounded-2xl shadow-md">
+        {frontmatter.badgeText && (
+          <span className="inline-block text-[11px] font-bold tracking-wide bg-white/20 text-white px-2.5 py-0.5 rounded-md mb-2">
+            {frontmatter.badgeText}
+          </span>
+        )}
         <h1 className="text-2xl md:text-3xl font-black m-0 mb-2">
-          Contact SOKA PREDICTIONS Support
+          {frontmatter.displayTitle || frontmatter.title}
         </h1>
-        <p className="text-xs md:text-sm text-purple-100 leading-relaxed">
-          Need help with your VIP activation, M-Pesa transaction confirmation, or custom jackpot slips? Our Nairobi team is available 24/7.
-        </p>
+        {frontmatter.introParagraph && (
+          <p className="text-xs md:text-sm text-purple-100 leading-relaxed">
+            {frontmatter.introParagraph}
+          </p>
+        )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      {/* Editorial Content / Meat of the Article in One Block Section from contact.md */}
+      <MarkdownArticleBlock pageData={pageData} />
+
+      {/* Channels & Inquiry Form */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Contact channels */}
         <div className="space-y-4">
           <a
@@ -98,8 +119,8 @@ export const ContactView: React.FC = () => {
             <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-center text-emerald-900">
               <i className="fas fa-check-circle text-2xl text-emerald-600 mb-2"></i>
               <h3 className="font-bold text-sm mb-1">Message Sent!</h3>
-              <p className="text-xs text-gray-600">
-                Thank you! Our support team will reach out to your phone via SMS or WhatsApp shortly.
+              <p className="text-xs text-emerald-800">
+                Thank you. Our customer desk has received your request and will contact you via WhatsApp or SMS shortly.
               </p>
             </div>
           ) : (
@@ -111,7 +132,7 @@ export const ContactView: React.FC = () => {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. Samuel Kiprotich"
+                  placeholder="e.g. Brian Ochieng"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#8D0E83] focus:outline-none"
                 />
               </div>
@@ -167,8 +188,8 @@ export const ContactView: React.FC = () => {
       {faqs.length > 0 && (
         <FaqAccordion
           faqs={faqs}
-          title={pageData?.frontmatter.faqTitle || "Customer Support - FAQs"}
-          subtitle="Quick answers regarding response times, payment inquiries, and custom slip requests."
+          title={frontmatter.faqTitle || pageData.faqTitle || "Customer Support - Frequently Asked Questions"}
+          subtitle={frontmatter.faqSubtitle || pageData.faqSubtitle}
         />
       )}
     </div>

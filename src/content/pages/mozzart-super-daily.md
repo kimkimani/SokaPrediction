@@ -1,5 +1,5 @@
 ---
-title: "Mozzart Super Daily Jackpot Prediction 16 Games | SOKAPREDICTIONS"
+title: "Mozzart Super Daily Jackpot Prediction 16 Games"
 displayTitle: "Mozzart Super Daily Jackpot Predictions (16 Games)"
 description: "Get daily Mozzart Super Daily Jackpot predictions for all 16 matches. Expert tips, double chance coverage, and KES 10 Million pool tips for only KES 20 stake."
 keywords: "mozzart super daily jackpot prediction, mozzart daily 16 games, mozzart daily jackpot tips, soka predictions mozzart daily"

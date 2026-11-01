@@ -1,5 +1,5 @@
 ---
-title: "Responsible Gambling Charter (18+) | SOKAPREDICTIONS"
+title: "Responsible Gambling Charter (18+)"
 displayTitle: "Responsible Wagering Charter & Player Protection"
 description: "SokaPredictions commitment to responsible gambling, bankroll discipline, self-exclusion guidelines, and confidential player assistance resources in Kenya."
 keywords: "responsible gambling, 18+ betting, bankroll management, kenya gaming awareness, safe betting"

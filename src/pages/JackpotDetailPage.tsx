@@ -160,7 +160,7 @@ export const JackpotDetailPage: React.FC<JackpotDetailPageProps> = ({
           `${f.position || idx + 1}. [${f.kickoffTime}] ${f.homeTeam} vs ${f.awayTeam} -> PICK: ${f.prediction}`
       ),
       '----------------------------------------',
-      'Get all 3 hedged combinations on https://sokapredictions.com/jackpot-predictions',
+      'Get all 3 hedged combinations on https://www.sokapredictions.com/jackpot-predictions',
     ];
     navigator.clipboard?.writeText(lines.join('\n'));
     setCopyToast(true);
@@ -743,8 +743,8 @@ export const JackpotDetailPage: React.FC<JackpotDetailPageProps> = ({
               ? markdownPage.faqs
               : faqSections.flatMap((f) => f.faqs || [])
           }
-          title={faqSections[0]?.title || `${jackpot.name} - Frequently Asked Questions (FAQ)`}
-          subtitle="Answers to common questions regarding entry stakes, cash bonuses, and delivery."
+          title={markdownPage?.frontmatter.faqTitle || markdownPage?.faqTitle || faqSections[0]?.title || `${jackpot.name} - Frequently Asked Questions (FAQ)`}
+          subtitle={markdownPage?.frontmatter.faqSubtitle || markdownPage?.faqSubtitle}
         />
       )}
 

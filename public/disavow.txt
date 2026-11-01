@@ -1,4 +1,4 @@
-# Google Search Console Disavow Links File for SOKAPREDICTIONS (https://sokapredictions.com)
+# Google Search Console Disavow Links File for SOKAPREDICTIONS (https://www.sokapredictions.com)
 # Generated to protect domain authority and organic sports ranking from toxic link networks
 # Format: Lines starting with # are comments. domain:example.com disavows entire domains.
 

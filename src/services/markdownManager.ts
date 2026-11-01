@@ -23,6 +23,7 @@ export interface MarkdownFrontmatter {
   sectionTitle?: string;
   sectionDescription?: string;
   faqTitle?: string;
+  faqSubtitle?: string;
   tags?: string[];
   lastmod?: string;
 }
@@ -53,6 +54,8 @@ export interface MarkdownPageData {
   overviewHtml: string;
   sections: MarkdownSection[];
   faqs?: FaqItem[];
+  faqTitle?: string;
+  faqSubtitle?: string;
 }
 
 // Simple, robust frontmatter parser that runs in browser & Node without external native deps
@@ -106,6 +109,8 @@ export function splitMarkdownIntoSections(rawBody: string): {
   overviewHtml: string;
   sections: MarkdownSection[];
   faqs?: FaqItem[];
+  faqTitle?: string;
+  faqSubtitle?: string;
 } {
   const lines = rawBody.split('\n');
   const sections: MarkdownSection[] = [];
@@ -116,6 +121,9 @@ export function splitMarkdownIntoSections(rawBody: string): {
     lines: string[];
   } | null = null;
 
+  let detectedFaqTitle: string | undefined;
+  let detectedFaqSubtitle: string | undefined;
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const match = line.match(/^(#{2})\s+(.+)$/);
@@ -124,7 +132,11 @@ export function splitMarkdownIntoSections(rawBody: string): {
       if (currentSection) {
         const rawContent = currentSection.lines.join('\n').trim();
         const tag = categorizeSection(currentSection.title);
-        const faqs = tag === 'faq' ? extractFaqsFromMarkdown(rawContent) : undefined;
+        const { faqs, subtitle } = tag === 'faq' ? extractFaqsFromMarkdown(rawContent) : { faqs: undefined, subtitle: undefined };
+        if (tag === 'faq') {
+          detectedFaqTitle = currentSection.title;
+          if (subtitle) detectedFaqSubtitle = subtitle;
+        }
         sections.push({
           id: slugify(currentSection.title),
           title: currentSection.title,
@@ -152,7 +164,11 @@ export function splitMarkdownIntoSections(rawBody: string): {
   if (currentSection) {
     const rawContent = currentSection.lines.join('\n').trim();
     const tag = categorizeSection(currentSection.title);
-    const faqs = tag === 'faq' ? extractFaqsFromMarkdown(rawContent) : undefined;
+    const { faqs, subtitle } = tag === 'faq' ? extractFaqsFromMarkdown(rawContent) : { faqs: undefined, subtitle: undefined };
+    if (tag === 'faq') {
+      detectedFaqTitle = currentSection.title;
+      if (subtitle) detectedFaqSubtitle = subtitle;
+    }
     sections.push({
       id: slugify(currentSection.title),
       title: currentSection.title,
@@ -175,14 +191,22 @@ export function splitMarkdownIntoSections(rawBody: string): {
     }
   });
 
-  return { overview, overviewHtml, sections, faqs: allFaqs.length > 0 ? allFaqs : undefined };
+  return {
+    overview,
+    overviewHtml,
+    sections,
+    faqs: allFaqs.length > 0 ? allFaqs : undefined,
+    faqTitle: detectedFaqTitle,
+    faqSubtitle: detectedFaqSubtitle,
+  };
 }
 
-export function extractFaqsFromMarkdown(rawContent: string): FaqItem[] {
+export function extractFaqsFromMarkdown(rawContent: string): { faqs: FaqItem[]; subtitle?: string } {
   const lines = rawContent.split('\n');
   const faqs: FaqItem[] = [];
   let currentQuestion = '';
   let currentAnswerLines: string[] = [];
+  let introLines: string[] = [];
 
   const pushCurrentFaq = () => {
     if (currentQuestion && currentAnswerLines.length > 0) {
@@ -208,12 +232,17 @@ export function extractFaqsFromMarkdown(rawContent: string): FaqItem[] {
       currentAnswerLines = [];
     } else if (currentQuestion) {
       currentAnswerLines.push(line);
+    } else {
+      if (line.trim()) {
+        introLines.push(line.trim());
+      }
     }
   }
 
   pushCurrentFaq();
 
-  return faqs;
+  const subtitle = introLines.join(' ').trim() || undefined;
+  return { faqs, subtitle };
 }
 
 function categorizeSection(title: string): MarkdownSection['tag'] {
@@ -312,10 +341,19 @@ export class MarkdownPageManager {
       let link = frontmatter.link || `/${slug}`;
       if (!link.startsWith('/')) link = `/${link}`;
 
+      const cleanTitle = (frontmatter.title || slug.replace(/-/g, ' ')).replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim();
+      const cleanDisplayTitle = (frontmatter.displayTitle || cleanTitle).replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim();
+
+      const html = marked.parse(body) as string;
+      const { overview, overviewHtml, sections, faqs, faqTitle, faqSubtitle } = splitMarkdownIntoSections(body);
+
+      const effectiveFaqTitle = frontmatter.faqTitle || faqTitle;
+      const effectiveFaqSubtitle = frontmatter.faqSubtitle || faqSubtitle;
+
       const fm: MarkdownFrontmatter = {
-        title: frontmatter.title || `${slug.replace(/-/g, ' ')} | SOKAPREDICTIONS`,
-        displayTitle: frontmatter.displayTitle || frontmatter.title,
-        shortTitle: frontmatter.shortTitle || frontmatter.displayTitle || frontmatter.title,
+        title: cleanTitle,
+        displayTitle: cleanDisplayTitle,
+        shortTitle: (frontmatter.shortTitle || cleanDisplayTitle).replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim(),
         badgeText: frontmatter.badgeText,
         description: frontmatter.description || 'Verified football predictions and betting tips.',
         keywords: frontmatter.keywords,
@@ -333,13 +371,11 @@ export class MarkdownPageManager {
         listSubtitle: frontmatter.listSubtitle,
         sectionTitle: frontmatter.sectionTitle,
         sectionDescription: frontmatter.sectionDescription,
-        faqTitle: frontmatter.faqTitle,
+        faqTitle: effectiveFaqTitle,
+        faqSubtitle: effectiveFaqSubtitle,
         tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
         lastmod: frontmatter.lastmod || '2026-10-31',
       };
-
-      const html = marked.parse(body) as string;
-      const { overview, overviewHtml, sections, faqs } = splitMarkdownIntoSections(body);
 
       pages.push({
         slug,
@@ -351,6 +387,8 @@ export class MarkdownPageManager {
         overviewHtml,
         sections,
         faqs,
+        faqTitle: effectiveFaqTitle,
+        faqSubtitle: effectiveFaqSubtitle,
       });
     }
 
@@ -576,7 +614,7 @@ export class MarkdownPageManager {
 
   static generateSitemapXml(): string {
     const pages = this.getAllPages();
-    const baseUrl = 'https://sokapredictions.com';
+    const baseUrl = 'https://www.sokapredictions.com';
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;

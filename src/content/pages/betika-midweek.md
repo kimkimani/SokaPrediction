@@ -1,5 +1,5 @@
 ---
-title: "Betika Midweek Jackpot Prediction 15 Games | SOKAPREDICTIONS"
+title: "Betika Midweek Jackpot Prediction 15 Games"
 displayTitle: "Betika Midweek Jackpot Predictions (15 Games)"
 description: "Get accurate Betika Midweek Jackpot predictions for all 15 matches. Expert analysis, double-chance variance hedges, and KES 15 Million pool tips for KES 15 entry."
 keywords: "betika midweek jackpot prediction, betika 15 games, betika midweek tips, soka predictions betika, betika jackpot predictions today"

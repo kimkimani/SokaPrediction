@@ -1,5 +1,5 @@
 ---
-title: "SportPesa Mega Jackpot Prediction 17 Games | SOKAPREDICTIONS"
+title: "SportPesa Mega Jackpot Prediction 17 Games"
 displayTitle: "SportPesa Mega Jackpot Pro Predictions (17 Games)"
 description: "Get accurate SportPesa Mega Jackpot predictions for all 17 matches. Expert tactical analysis, double chance combinations, and KES 385 Million pool winning strategies."
 keywords: "sportpesa mega jackpot prediction, sportpesa 17 games, soka predictions mega jackpot, mega jackpot pro predictions, sportpesa jackpot tips today"
