@@ -1,18 +1,16 @@
 ---
-title: "Free Soka Prediction And Today Football Tips"
+title: "Free Soka Prediction And Today Football Betting Tips"
 displayTitle: "Free Soka Prediction And Today Football Soka Tips"
 description: "Get Accurate Soka Predictions and football betting predictions Right Now. Do not waste time on meaningless predictions. Check SOKAPREDICTIONS and get Top Sure Soccer Bet Wins from Experts."
 keywords: "soka prediction, soka prediction today, soka prediction today football, soka tip, soka tips today, soka prediction tips"
-badgeText: "Form Banker"
+badgeText: "Soka Tips Today"
 link: "/"
 type: "landing"
 fixturesCategory: "today"
-introParagraph: "Get verified match predictions, 1X2 market breakdowns, Over/Under 2.5 goals, and BTTS (Both Teams To Score) tips updated daily by 08:30 EAT. All selections are cross-referenced with team news, league standings, and recent form across the English Premier League, UEFA Champions League, La Liga, Serie A, and African leagues."
-listTitle: "Football Match Predictions & Tips"
-listSubtitle: "Verified daily betting selections backed by quantitative form analysis"
-sectionTitle: "Stop Guessing. Start Winning. Soka Predictions is your #1 Source"
-sectionDescription: "Analytical sports predictions backed by Poisson models, team form metrics, and head-to-head records."
-tags: ["soka predictions", "football betting predictions", "free tips", "sure soccer tips", "kenya betting tips"]
+introParagraph: "SOKAPREDICTIONS.com gives you verified match predictions. We have 1X2 market, Over/Under 2.5 goals, Double chance games and Both Teams To Score soka tips. Our tips are updated daily before 08:30 EAT. We realy on selections from to leages and high chance fixtures. Our goal is not to recycle tips but becode the leading footbalf soka predictions platform for all realuble dailly soka based tips."
+listTitle: "Out Today Soka Football Predictions & Tips"
+listSubtitle: "the following are soka prediction matches for our daily tips selections."
+tags: ["soka predictions", "football betting predictions", "free tips", "sure soccer tips"]
 ---
 
 ## Stop Guessing. Start Winning. Soka Predictions is your #1 Source for tips and Predictions
