@@ -22,7 +22,7 @@ export const SeoManager: React.FC = () => {
     // 2. Fetch matching markdown page data
     const pageData = MarkdownPageManager.getPageByPath(rawPath);
 
-    const baseTitle = pageData?.frontmatter?.title || pageData?.frontmatter?.displayTitle || 'Soka Predictions - Accurate Football Betting Predictions & Sure Tips';
+    const baseTitle = pageData?.frontmatter?.title || pageData?.frontmatter?.displayTitle || 'Free Soka Prediction And Today Football Betting Tips';
     const cleanTitle = baseTitle.replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim();
     document.title = cleanTitle;
 
