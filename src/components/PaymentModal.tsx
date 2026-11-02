@@ -239,9 +239,6 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                     <span>{copiedPhone ? 'Copied' : 'Copy'}</span>
                   </button>
                 </div>
-                <span className="text-[10px] text-gray-500 mt-1 block">
-                  Account Name: <strong className="text-gray-700">{POCHI_NAME}</strong>
-                </span>
               </div>
 
               {/* Amount Field */}

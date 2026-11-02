@@ -122,18 +122,7 @@ export const Footer: React.FC = () => {
                   </Link>
                 </li>
               ))}
-              <li>
-                <a href="/sitemaps.xml" target="_blank" rel="noopener noreferrer" className="hover:text-white transition flex items-center gap-1.5">
-                  <i className="fas fa-sitemap text-gray-400 text-[10px]"></i>
-                  <span>XML Sitemap (sitemaps.xml)</span>
-                </a>
-              </li>
-              <li>
-                <a href="/llms.txt" target="_blank" rel="noopener noreferrer" className="hover:text-white transition flex items-center gap-1.5">
-                  <i className="fas fa-robot text-purple-400 text-[10px]"></i>
-                  <span>AI Crawler Specs (llms.txt)</span>
-                </a>
-              </li>
+             
             </ul>
           </div>
 
