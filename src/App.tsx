@@ -319,7 +319,9 @@ function AppLayout() {
             />
 
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/about-us" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/contact-us" element={<ContactPage />} />
 
             {/* Universal Dynamic Markdown Page Resolver */}
             {/* Matches ANY nested or top-level path (e.g. /tips/sunpel, /tips/sokapedia, /tips/predictz, /over-1-5-prediction-tips, /today-tips-and-predictions) */}

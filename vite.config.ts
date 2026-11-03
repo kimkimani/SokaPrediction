@@ -4,6 +4,7 @@ import path from 'path';
 import {defineConfig, Plugin} from 'vite';
 import {writeSitemaps} from './scripts/generate-sitemap.ts';
 import {htmlSeoPlugin} from './scripts/html-seo-plugin.ts';
+import {prerenderAllPages} from './scripts/prerender-pages.ts';
 
 function sitemapBuildPlugin(): Plugin {
   return {
@@ -18,8 +19,9 @@ function sitemapBuildPlugin(): Plugin {
     closeBundle() {
       try {
         writeSitemaps();
+        prerenderAllPages();
       } catch (err) {
-        console.warn('[vite:sitemap] Error mirroring sitemap on closeBundle:', err);
+        console.warn('[vite:sitemap] Error mirroring sitemap or prerendering on closeBundle:', err);
       }
     },
   };
