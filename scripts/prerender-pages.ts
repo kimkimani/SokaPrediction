@@ -361,51 +361,36 @@ export function prerenderAllPages() {
     }
 
     // 8. Write clean static HTML file with <div id="root"></div>
-    // On Cloudflare Pages and modern hosts, saving as `<path>.html` serves the clean URL
-    // without trailing slash (e.g. /tips/sawa-bet-prediction-and-tips).
-    // If saved as `<path>/index.html`, hosts detect a directory and issue an HTTP 308 redirect
-    // enforcing a trailing slash (/tips/sawa-bet-prediction-and-tips/).
     if (routePath === '/' || routePath === '') {
       fs.writeFileSync(templatePath, html, 'utf-8');
     } else {
       const cleanRelPath = routePath.replace(/^\/+/, '').replace(/\/+$/, '');
-      const targetHtmlFile = path.join(distDir, `${cleanRelPath}.html`);
-      const parentDir = path.dirname(targetHtmlFile);
-      fs.mkdirSync(parentDir, { recursive: true });
+      const targetDir = path.join(distDir, cleanRelPath);
+      fs.mkdirSync(targetDir, { recursive: true });
 
-      // Write dist/<path>.html
-      fs.writeFileSync(targetHtmlFile, html, 'utf-8');
+      // Generate dist/<path>/index.html
+      fs.writeFileSync(path.join(targetDir, 'index.html'), html, 'utf-8');
     }
 
     renderedCount++;
   }
 
-  // Clean any legacy subfolder index.html files in dist (except the root dist/index.html)
-  // to ensure web hosts don't see physical directories and redirect with trailing slashes
+  // Clean any legacy flat .html files in dist root to prevent Cloudflare redirect loops
   try {
-    const removeSubfolderIndexHtml = (dir: string) => {
-      const entries = fs.readdirSync(dir, { withFileTypes: true });
-      for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
-        if (entry.isDirectory()) {
-          removeSubfolderIndexHtml(fullPath);
-          // If directory is now empty, remove it
-          try {
-            if (fs.readdirSync(fullPath).length === 0) {
-              fs.rmdirSync(fullPath);
-            }
-          } catch {}
-        } else if (entry.isFile() && entry.name === 'index.html' && dir !== distDir) {
-          fs.unlinkSync(fullPath);
+    const legacyFiles = fs.readdirSync(distDir);
+    for (const f of legacyFiles) {
+      if (f.endsWith('.html') && f !== 'index.html') {
+        const fullP = path.join(distDir, f);
+        if (fs.statSync(fullP).isFile()) {
+          fs.unlinkSync(fullP);
         }
       }
-    };
-    removeSubfolderIndexHtml(distDir);
+    }
   } catch (err) {
-    console.warn('[Prerender Engine] Warning cleaning legacy directory index.html files:', err);
+    console.warn('[Prerender Engine] Warning cleaning legacy flat HTML files:', err);
   }
 
-  console.log(`[Prerender Engine] Successfully generated ${renderedCount} clean static HTML pages (.html) in ${distDir}!`);
+  console.log(`[Prerender Engine] Successfully generated ${renderedCount} clean static HTML pages in ${distDir}!`);
 }
 
 // Run directly from CLI if invoked as main module
