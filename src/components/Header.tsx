@@ -30,29 +30,29 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-xs">
-      <div className="max-w-[1260px] 2xl:max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 h-14 flex items-center justify-between gap-3">
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-xs w-full max-w-full">
+      <div className="max-w-[1260px] 2xl:max-w-[1360px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 h-14 flex items-center justify-between gap-2 sm:gap-3 w-full">
         {/* Left Section: Mobile Menu Toggle & Brand Logo */}
-        <div className="flex items-center gap-2.5 flex-shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
           <button
             onClick={onToggleSidebar}
-            className="lg:hidden w-9 h-9 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition cursor-pointer border border-gray-200 active:scale-95"
+            className="lg:hidden w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition cursor-pointer border border-gray-200 active:scale-95 flex-shrink-0"
             title="Open Mobile Navigation Menu"
             aria-label="Toggle Navigation Menu"
           >
-            <i className={`fas ${isSidebarOpen ? 'fa-times text-[#8D0E83]' : 'fa-bars'} text-sm`}></i>
+            <i className={`fas ${isSidebarOpen ? 'fa-times text-[#8D0E83]' : 'fa-bars'} text-xs sm:text-sm`}></i>
           </button>
 
           <Link
             to="/"
-            className="logo-brand text-base sm:text-lg font-black tracking-tight text-decoration-none select-none flex items-center gap-2"
+            className="logo-brand text-xs sm:text-base font-black tracking-tight text-decoration-none select-none flex items-center gap-1.5 sm:gap-2 min-w-0"
           >
             <img
               src="/assets/brand-emblem.png"
               alt="Soka Predictions Emblem"
-              className="w-8 h-8 rounded-lg object-contain shadow-xs flex-shrink-0"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg object-contain shadow-xs flex-shrink-0"
             />
-            <span className="text-[#8D0E83]">
+            <span className="text-[#8D0E83] font-black tracking-tight text-xs sm:text-base whitespace-nowrap">
               SOKA PREDICTIONS
             </span>
           </Link>
@@ -81,11 +81,11 @@ export const Header: React.FC<HeaderProps> = ({
           ))}
         </nav>
 
-        {/* Right Section: Action Buttons (PHP API removed as requested) */}
-        <div className="flex items-center gap-2 flex-shrink-0">
+        {/* Right Section: Action Buttons */}
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           <button
             onClick={onScrollToPredictions}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold transition shadow-2xs cursor-pointer"
+            className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold transition shadow-2xs cursor-pointer"
           >
             <i className="fas fa-bolt text-emerald-600 text-xs"></i>
             <span>Predictions</span>
@@ -93,9 +93,9 @@ export const Header: React.FC<HeaderProps> = ({
 
           <button
             onClick={onOpenVipModal}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-black uppercase tracking-wider transition shadow-sm cursor-pointer"
+            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-[11px] sm:text-xs font-black uppercase tracking-wider transition shadow-sm cursor-pointer whitespace-nowrap flex-shrink-0 active:scale-95"
           >
-            <i className="fas fa-crown text-xs"></i>
+            <i className="fas fa-crown text-[10px] sm:text-xs"></i>
             <span>Go VIP</span>
           </button>
         </div>

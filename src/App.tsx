@@ -184,7 +184,7 @@ function AppLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 flex flex-col font-sans">
+    <div className="min-h-screen bg-white text-gray-900 flex flex-col font-sans w-full max-w-full overflow-x-hidden">
       {/* Dynamic SEO & Canonical Link Synchronizer */}
       <SeoManager />
 
@@ -210,7 +210,7 @@ function AppLayout() {
         />
 
         {/* Center Main Content Area */}
-        <main className="main-content min-w-0 pb-16 lg:pb-12 px-3 sm:px-4 lg:px-5 pt-2 md:pt-3 w-full">
+        <main className="main-content min-w-0 pb-16 lg:pb-12 px-3 sm:px-4 lg:px-5 pt-2 md:pt-3 w-full max-w-full overflow-x-hidden">
           {/* Dynamic Multi-Page Routes */}
           <Routes>
             <Route
