@@ -1,6 +1,6 @@
 ---
-title: "Free Soka Prediction and Today Football Betting Tips"
-displayTitle: "Free Soka Prediction and Today Football Soka Tips"
+title: "Free Soka Prediction Today and Football Soka Tips"
+displayTitle: "Free Soka Prediction Today and Football Soka Tips"
 description: "Get Accurate Today and Daily Soka football Predictions and betting tips Right Now. Don't waste time on low quality soka tips. Check SOKAPREDICTIONS for Top Soccer tips."
 keywords: "soka prediction, soka prediction today, soka prediction today football, soka tip, soka tips today, soka prediction tips"
 badgeText: "Soka Tips Today"
