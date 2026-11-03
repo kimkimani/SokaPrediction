@@ -11,16 +11,24 @@ import {
 export const DEFAULT_API_BASE_URL = 'https://cheerplex.co.ke/soka_king/api';
 
 export function getApiBaseUrl(): string {
-  if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('soka_php_api_url') || localStorage.getItem('254_php_api_url');
-    if (saved && saved.trim()) return saved.trim();
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const saved = localStorage.getItem('soka_php_api_url') || localStorage.getItem('254_php_api_url');
+      if (saved && saved.trim()) return saved.trim();
+    }
+  } catch {
+    // Restricted storage environment (e.g. incognito or iframe)
   }
   return (import.meta.env.VITE_PHP_API_URL as string) || DEFAULT_API_BASE_URL;
 }
 
 export function setApiBaseUrl(url: string) {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('soka_php_api_url', url.trim());
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('soka_php_api_url', url.trim());
+    }
+  } catch {
+    // Restricted storage environment
   }
 }
 

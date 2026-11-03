@@ -32,10 +32,11 @@ export const DynamicMarkdownPage: React.FC<DynamicMarkdownPageProps> = ({
   onOpenPaymentModal,
 }) => {
   const location = useLocation();
-  const [pageData, setPageData] = useState<MarkdownPageData | null>(null);
+  const initialPage = MarkdownPageManager.getPageByPath(location.pathname);
+  const [pageData, setPageData] = useState<MarkdownPageData | null>(initialPage);
   const [groupedFixtures, setGroupedFixtures] = useState<DateGroupedFixtures[]>([]);
-  const [resolvedOverviewHtml, setResolvedOverviewHtml] = useState<string>('');
-  const [resolvedSections, setResolvedSections] = useState<MarkdownSection[]>([]);
+  const [resolvedOverviewHtml, setResolvedOverviewHtml] = useState<string>(() => initialPage?.overviewHtml || '');
+  const [resolvedSections, setResolvedSections] = useState<MarkdownSection[]>(() => initialPage?.sections || []);
   const [loadingFixtures, setLoadingFixtures] = useState(false);
 
   useEffect(() => {
