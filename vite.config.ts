@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig, Plugin} from 'vite';
 import {writeSitemaps} from './scripts/generate-sitemap.ts';
+import {htmlSeoPlugin} from './scripts/html-seo-plugin.ts';
 
 function sitemapBuildPlugin(): Plugin {
   return {
@@ -26,7 +27,7 @@ function sitemapBuildPlugin(): Plugin {
 
 export default defineConfig(() => {
   return {
-    plugins: [sitemapBuildPlugin(), react(), tailwindcss()],
+    plugins: [sitemapBuildPlugin(), htmlSeoPlugin(), react(), tailwindcss()],
     resolve: {
       alias: {
         '@': path.resolve(import.meta.dirname, '.'),
