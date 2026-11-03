@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import {
   PredictionFixture,
   JackpotItem,
@@ -33,7 +33,16 @@ import { SeoManager } from './components/SeoManager';
 
 function AppLayout() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Automatically strip trailing slashes (e.g. /tips/sawa-bet-prediction-and-tips/ -> /tips/sawa-bet-prediction-and-tips)
+  useEffect(() => {
+    if (location.pathname.length > 1 && location.pathname.endsWith('/')) {
+      const cleanPath = location.pathname.replace(/\/+$/, '');
+      navigate(`${cleanPath}${location.search}${location.hash}`, { replace: true });
+    }
+  }, [location.pathname, location.search, location.hash, navigate]);
 
   // Data states from Cheerplex PHP API
   const [fixtures, setFixtures] = useState<PredictionFixture[]>([]);
