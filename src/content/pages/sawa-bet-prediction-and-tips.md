@@ -7,10 +7,10 @@ description: "We are offering you Sawa bet predictions and tips today. Grab all 
 keywords: "sawa bet prediction, sawa prediction, sawa tips, sawa bet"
 link: "/tips/sawa-bet-prediction-and-tips"
 type: "category"
-fixturesCategory: "sokapedia"
+fixturesCategory: "sunpel"
 dateMode: "4_days_only"
 navSection: "providers"
-sortOrder: 2
+sortOrder: 1
 introParagraph: "We are offering you Sawa bet predictions and tips today. Grab all the Sawa bet predictions with verified 1X2 tips, double chances, goal totals, and free banker”
 listTitle: " Sawa Predictions Matchday Games"
 listSubtitle: " Check updated tips and our expert predictions and score lines"
