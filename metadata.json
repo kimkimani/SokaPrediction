@@ -1,8 +1,6 @@
 {
-  "name": "Remix Remix Remix Remix Remix 254 SURE TIPS - Football Betting Predictions \u0026 Tips",
-  "description": "Accurate 254 sure tips and football betting predictions powered by Cheerplex PHP REST API with M-Pesa checkout, live match odds, jackpot analytics, and VIP packages.",
+  "name": "Soka Predictions - Kenya Premier Football Tips & Jackpots",
+  "description": "Accurate daily football betting predictions, jackpot combinations, bankers, and high-odds tips with zero redirects.",
   "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

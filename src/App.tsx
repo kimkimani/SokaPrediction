@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import {
   PredictionFixture,
   JackpotItem,
@@ -246,9 +246,27 @@ function AppLayout() {
                 />
               }
             />
-            {/* Fallback redirects for legacy links */}
-            <Route path="/jackpots" element={<Navigate to="/jackpot-predictions" replace />} />
-            <Route path="/jackpot" element={<Navigate to="/jackpot-predictions" replace />} />
+            {/* Direct rendering without any redirect */}
+            <Route
+              path="/jackpots"
+              element={
+                <JackpotsListPage
+                  jackpots={jackpots}
+                  loading={loadingJackpots}
+                  onOpenPaymentModal={openCustomPaymentModal}
+                />
+              }
+            />
+            <Route
+              path="/jackpot"
+              element={
+                <JackpotsListPage
+                  jackpots={jackpots}
+                  loading={loadingJackpots}
+                  onOpenPaymentModal={openCustomPaymentModal}
+                />
+              }
+            />
 
             {/* Dedicated Individual Jackpot Working Page */}
             <Route
@@ -275,8 +293,28 @@ function AppLayout() {
               }
             />
 
-            {/* Sitemap page removed as requested - redirect to home */}
-            <Route path="/sitemap" element={<Navigate to="/" replace />} />
+            {/* Sitemap page directly renders Home view without any redirect */}
+            <Route
+              path="/sitemap"
+              element={
+                <HomePage
+                  fixtures={fixtures}
+                  loadingFixtures={loadingFixtures}
+                  dateFilter={dateFilter}
+                  setDateFilter={handleDateFilterChange}
+                  categoryFilter={categoryFilter}
+                  setCategoryFilter={handleCategoryFilterChange}
+                  onRefreshPredictions={() => loadPredictions(categoryFilter, dateFilter)}
+                  jackpots={jackpots}
+                  loadingJackpots={loadingJackpots}
+                  onOpenJackpotDetail={(jp) => setSelectedJackpotModal(jp)}
+                  vipPackages={vipPackages}
+                  oddsPacks={oddsPacks}
+                  onOpenPaymentModal={openCustomPaymentModal}
+                  onOpenDefaultVipModal={openDefaultVipModal}
+                />
+              }
+            />
 
             {/* VIP Packages Dedicated Page */}
             <Route
@@ -315,7 +353,13 @@ function AppLayout() {
             />
             <Route
               path="/254-sure-premium-odds-and-tips"
-              element={<Navigate to="/sure-premium-odds-and-tips" replace />}
+              element={
+                <SureOddsPage
+                  oddsPacks={oddsPacks}
+                  loading={loadingOdds}
+                  onOpenPaymentModal={openCustomPaymentModal}
+                />
+              }
             />
 
             <Route path="/about" element={<AboutPage />} />

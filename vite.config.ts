@@ -1,35 +1,11 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import {defineConfig, Plugin} from 'vite';
-import {writeSitemaps} from './scripts/generate-sitemap.ts';
-import {htmlSeoPlugin} from './scripts/html-seo-plugin.ts';
-import {prerenderAllPages} from './scripts/prerender-pages.ts';
-
-function sitemapBuildPlugin(): Plugin {
-  return {
-    name: 'sitemap-build-generator',
-    buildStart() {
-      try {
-        writeSitemaps();
-      } catch (err) {
-        console.warn('[vite:sitemap] Error generating sitemap on buildStart:', err);
-      }
-    },
-    closeBundle() {
-      try {
-        writeSitemaps();
-        prerenderAllPages();
-      } catch (err) {
-        console.warn('[vite:sitemap] Error mirroring sitemap or prerendering on closeBundle:', err);
-      }
-    },
-  };
-}
+import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    plugins: [sitemapBuildPlugin(), htmlSeoPlugin(), react(), tailwindcss()],
+    plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
         '@': path.resolve(import.meta.dirname, '.'),
