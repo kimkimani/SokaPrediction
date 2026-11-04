@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, Navigate, useLocation, useParams } from 'react-router-dom';
 import {
   PredictionFixture,
   JackpotItem,
@@ -7,6 +7,7 @@ import {
   OddsPack,
 } from './types';
 import { CheerplexApiService } from './services/api';
+import { MarkdownPageManager } from './services/markdownManager';
 import { Sidebar } from './components/Sidebar';
 import { RightSidebar } from './components/RightSidebar';
 import { Header } from './components/Header';
@@ -250,7 +251,7 @@ function AppLayout() {
             <Route path="/jackpots" element={<Navigate to="/jackpot-predictions" replace />} />
             <Route path="/jackpot" element={<Navigate to="/jackpot-predictions" replace />} />
 
-            {/* Dedicated Individual Jackpot Working Page - Supports both /jackpots/:slug and /jackpot/:slug */}
+            {/* Dedicated Individual Jackpot Working Page */}
             <Route
               path="/jackpots/:slug"
               element={
@@ -260,15 +261,8 @@ function AppLayout() {
                 />
               }
             />
-            <Route
-              path="/jackpot/:slug"
-              element={
-                <JackpotDetailPage
-                  jackpots={jackpots}
-                  onOpenPaymentModal={openCustomPaymentModal}
-                />
-              }
-            />
+            {/* Redirect /jackpot/:slug to canonical /jackpots/:slug */}
+            <Route path="/jackpot/:slug" element={<JackpotSingularRedirect />} />
 
             {/* Special Banker Pick of the Day Page */}
             <Route
@@ -402,29 +396,48 @@ function AppLayout() {
   );
 }
 
+function JackpotSingularRedirect() {
+  const { slug } = useParams<{ slug: string }>();
+  return <Navigate to={`/jackpots/${slug}`} replace />;
+}
+
 /**
- * Normalizes incoming URLs to remove any trailing slash without triggering an HTTP redirect.
- * When a user directly visits, refreshes, or follows a link with a trailing slash (e.g. /tips/mwanasoka-tips/ or /about/),
- * this cleanly updates the browser URL bar to the clean non-slash version (/tips/mwanasoka-tips)
- * using window.history.replaceState, preserving /tips/, /jackpot/, /jackpots/, and root prefixes.
+ * Normalizes incoming URLs and enforces canonical directory paths:
+ * 1. Strips any trailing slashes (e.g. /tips/mwanasoka-tips/ -> /tips/mwanasoka-tips) using React Router's navigate replace.
+ * 2. If a user visits root /mwanasoka-tips or /sunpel-predictions, but the file is organized under tips/ (or jackpots/),
+ *    redirects them immediately to the canonical link (/tips/mwanasoka-tips) so the page does not duplicate at root.
  */
 function TrailingSlashNormalizer() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const pathname = location.pathname;
-    let cleanPath = pathname;
 
-    // Remove trailing slashes (except root '/')
-    if (cleanPath !== '/' && cleanPath.endsWith('/')) {
-      cleanPath = cleanPath.replace(/\/+$/, '') || '/';
+    // 1. Strip trailing slashes (except root '/')
+    if (pathname !== '/' && pathname.endsWith('/')) {
+      const clean = pathname.replace(/\/+$/, '') || '/';
+      navigate(clean + location.search + location.hash, { replace: true });
+      return;
     }
 
-    if (cleanPath !== pathname) {
-      const targetUrl = cleanPath + location.search + location.hash;
-      window.history.replaceState(null, '', targetUrl);
+    // 2. Redirect misplaced root or alternate paths to the canonical URL
+    const cleanPath = pathname.replace(/\/+$/, '') || '/';
+    if (cleanPath !== '/') {
+      const exactMatch = MarkdownPageManager.getPageByPath(cleanPath);
+      if (!exactMatch) {
+        // If not an exact canonical match, check if this path matches a page's slug
+        const segments = cleanPath.split('/').filter(Boolean);
+        const lastSeg = segments[segments.length - 1];
+        if (lastSeg) {
+          const page = MarkdownPageManager.getPageBySlug(lastSeg);
+          if (page && page.frontmatter.link && page.frontmatter.link !== cleanPath) {
+            navigate(page.frontmatter.link + location.search + location.hash, { replace: true });
+          }
+        }
+      }
     }
-  }, [location.pathname, location.search, location.hash]);
+  }, [location.pathname, location.search, location.hash, navigate]);
 
   return null;
 }

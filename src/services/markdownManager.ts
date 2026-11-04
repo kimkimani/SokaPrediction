@@ -430,61 +430,30 @@ export class MarkdownPageManager {
     const all = this.getAllPages();
     const cleanPath = path.split('?')[0].replace(/\/+$/, '') || '/';
 
-    // 1. Exact link match against frontmatter link
-    let match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === cleanPath);
+    // 1. Strict exact link match against frontmatter link
+    const match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === cleanPath);
     if (match) return match;
 
-    // 2. Cross-prefix tolerance for /tips/
-    if (cleanPath.startsWith('/tips/')) {
-      const strippedTipsPath = cleanPath.replace(/^\/tips/, '');
-      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === strippedTipsPath);
-      if (match) return match;
-    } else {
-      const withTipsPath = `/tips${cleanPath}`;
-      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === withTipsPath);
-      if (match) return match;
-    }
-
-    // 3. Cross-prefix tolerance for /jackpot/ and /jackpots/
-    if (cleanPath.startsWith('/jackpot/')) {
-      const pluralPath = cleanPath.replace(/^\/jackpot\//, '/jackpots/');
-      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === pluralPath);
-      if (match) return match;
-      const strippedJp = cleanPath.replace(/^\/jackpot\//, '/');
-      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === strippedJp);
-      if (match) return match;
-    } else if (cleanPath.startsWith('/jackpots/')) {
-      const singularPath = cleanPath.replace(/^\/jackpots\//, '/jackpot/');
-      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === singularPath);
-      if (match) return match;
-      const strippedJps = cleanPath.replace(/^\/jackpots\//, '/');
-      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === strippedJps);
-      if (match) return match;
-    } else {
-      // User accessed root /<slug> but page is under /jackpots/<slug> or /jackpot/<slug>
-      const withJackpots = `/jackpots${cleanPath}`;
-      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === withJackpots);
-      if (match) return match;
-      const withJackpot = `/jackpot${cleanPath}`;
-      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === withJackpot);
-      if (match) return match;
-    }
-
-    // 4. Slug & jackpotId match fallback
-    const segments = cleanPath.split('/').filter(Boolean);
-    const lastSeg = segments[segments.length - 1];
-
-    if (lastSeg) {
-      match = all.find((p) => p.slug === lastSeg || p.frontmatter.jackpotId === lastSeg);
-      if (match) return match;
-    }
-
-    // 5. Special root match
+    // 2. Special root match
     if (cleanPath === '/' || cleanPath === '') {
       return all.find((p) => p.slug === 'home') || null;
     }
 
     return null;
+  }
+
+  // Look up page by slug or jackpotId for redirecting non-canonical / misplaced paths
+  static getPageBySlug(slug: string): MarkdownPageData | null {
+    if (!slug) return null;
+    const clean = slug.toLowerCase().replace(/^\/+|\/+$/g, '');
+    const all = this.getAllPages();
+    return (
+      all.find(
+        (p) =>
+          p.slug.toLowerCase() === clean ||
+          p.frontmatter.jackpotId?.toLowerCase() === clean
+      ) || null
+    );
   }
 
   static getPagesByType(type: MarkdownFrontmatter['type']): MarkdownPageData[] {
