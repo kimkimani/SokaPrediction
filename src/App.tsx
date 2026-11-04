@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import {
   PredictionFixture,
   JackpotItem,
@@ -30,6 +30,28 @@ import { DynamicMarkdownPage } from './pages/DynamicMarkdownPage';
 import { ContactView as ContactPage } from './components/ContactView';
 import { AboutView as AboutPage } from './components/AboutView';
 import { SeoManager } from './components/SeoManager';
+
+/**
+ * TrailingSlashRemover
+ * Automatically removes any trailing slash from the browser URL bar
+ * using window.history.replaceState (zero HTTP redirect, zero reload, pure client-side).
+ */
+const TrailingSlashRemover: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname.length > 1 && location.pathname.endsWith('/')) {
+      const cleanPath = location.pathname.replace(/\/+$/, '');
+      window.history.replaceState(
+        window.history.state,
+        document.title,
+        cleanPath + location.search + location.hash
+      );
+    }
+  }, [location.pathname, location.search, location.hash]);
+
+  return null;
+};
 
 function AppLayout() {
   const navigate = useNavigate();
@@ -187,6 +209,9 @@ function AppLayout() {
     <div className="min-h-screen bg-white text-gray-900 flex flex-col font-sans w-full max-w-full overflow-x-hidden">
       {/* Dynamic SEO & Canonical Link Synchronizer */}
       <SeoManager />
+
+      {/* Instant Zero-Redirect Trailing Slash Cleaner */}
+      <TrailingSlashRemover />
 
       {/* Universal Top Navigation Header (Desktop Navigation & Mobile Menu) */}
       <Header

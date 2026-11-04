@@ -337,9 +337,12 @@ export class MarkdownPageManager {
       const slug = filename.replace(/\.md$/, '');
       const { frontmatter, body } = parseFrontmatter(rawText);
 
-      // Clean link
+      // Clean link (guarantee no trailing slash)
       let link = frontmatter.link || `/${slug}`;
       if (!link.startsWith('/')) link = `/${link}`;
+      if (link.length > 1 && link.endsWith('/')) {
+        link = link.replace(/\/+$/, '');
+      }
 
       const cleanTitle = (frontmatter.title || slug.replace(/-/g, ' ')).replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim();
       const cleanDisplayTitle = (frontmatter.displayTitle || cleanTitle).replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim();
@@ -610,6 +613,31 @@ export class MarkdownPageManager {
   // Returns jackpot pages
   static getJackpotPages(): MarkdownPageData[] {
     return this.getAllPages().filter((p) => p.frontmatter.type === 'jackpot');
+  }
+
+  // Finds the markdown page for a given jackpot ID or slug
+  static getJackpotPage(jackpotIdOrSlug: string): MarkdownPageData | null {
+    if (!jackpotIdOrSlug) return null;
+    const cleanId = jackpotIdOrSlug.toLowerCase().trim();
+    const all = this.getAllPages();
+    return (
+      all.find(
+        (p) =>
+          p.frontmatter.type === 'jackpot' &&
+          ((p.frontmatter.jackpotId && p.frontmatter.jackpotId.toLowerCase() === cleanId) ||
+            p.slug.toLowerCase() === cleanId ||
+            p.frontmatter.link.toLowerCase().endsWith(`/${cleanId}`))
+      ) || null
+    );
+  }
+
+  // Resolves the link for any jackpot ID or slug dynamically from markdown files
+  static getJackpotLink(jackpotIdOrSlug: string): string {
+    const page = this.getJackpotPage(jackpotIdOrSlug);
+    if (page?.frontmatter?.link) {
+      return page.frontmatter.link.replace(/\/+$/, '');
+    }
+    return `/jackpots/${jackpotIdOrSlug}`.replace(/\/+$/, '');
   }
 
   static generateSitemapXml(): string {
