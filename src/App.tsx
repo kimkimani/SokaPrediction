@@ -394,9 +394,9 @@ function AppLayout() {
 }
 
 /**
- * Normalizes incoming URLs to remove any trailing slash without triggering an HTTP redirect.
- * When a user directly visits, refreshes, or follows a link with a trailing slash (e.g. /tips/mwanasoka-tips/),
- * this immediately updates the browser URL bar to the clean non-slash version (/tips/mwanasoka-tips)
+ * Normalizes incoming URLs to remove any trailing slash and clean legacy /tips/ prefixes without triggering an HTTP redirect.
+ * When a user directly visits, refreshes, or follows a link with a trailing slash (e.g. /mwanasoka-tips/ or /tips/mwanasoka-tips),
+ * this immediately updates the browser URL bar to the clean non-slash flat version (/mwanasoka-tips)
  * using window.history.replaceState, avoiding server redirect chains and 301/308 status codes.
  */
 function TrailingSlashNormalizer() {
@@ -404,8 +404,22 @@ function TrailingSlashNormalizer() {
 
   useEffect(() => {
     const pathname = location.pathname;
-    if (pathname !== '/' && pathname.endsWith('/')) {
-      const cleanPath = pathname.replace(/\/+$/, '') || '/';
+    let cleanPath = pathname;
+
+    // 1. Remove trailing slashes (except root '/')
+    if (cleanPath !== '/' && cleanPath.endsWith('/')) {
+      cleanPath = cleanPath.replace(/\/+$/, '') || '/';
+    }
+
+    // 2. Normalize legacy /tips/<slug> to clean /<slug> matching sokaking flat architecture
+    if (cleanPath.startsWith('/tips/')) {
+      const slug = cleanPath.replace(/^\/tips\//, '');
+      if (slug) {
+        cleanPath = `/${slug}`;
+      }
+    }
+
+    if (cleanPath !== pathname) {
       const targetUrl = cleanPath + location.search + location.hash;
       window.history.replaceState(null, '', targetUrl);
     }

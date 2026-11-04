@@ -44,8 +44,13 @@ export function getSeoForUrl(rawUrl: string): SeoMetadata | null {
     return { file, slug, fm, link };
   });
 
-  // 1. Exact link match (matches e.g. /tips/sunpel-prediction, /jackpots/mozzart-super-daily-jackpot-predictions)
+  // 1. Exact link match
   let match = pages.find((p) => p.link.replace(/\/+$/, '') === cleanPath);
+  if (match) return match;
+
+  // 1b. Support /tips/<slug> matching to /<slug>
+  const strippedTipsPath = cleanPath.replace(/^\/tips/, '');
+  match = pages.find((p) => p.link.replace(/\/+$/, '') === strippedTipsPath);
   if (match) return match;
 
   // 2. Slug or jackpotId match (e.g. /jackpots/mozzart-super-daily -> mozzart-super-daily)

@@ -411,11 +411,16 @@ export class MarkdownPageManager {
     const all = this.getAllPages();
     const cleanPath = path.split('?')[0].replace(/\/+$/, '') || '/';
 
-    // 1. Exact link match (matches e.g. /tips/sunpel, /tips/sokapedia, /over-1-5-prediction-tips)
+    // 1. Exact link match
     let match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === cleanPath);
     if (match) return match;
 
-    // 2. Slug match (e.g. /jackpots/sportpesa-mega -> sportpesa-mega)
+    // 1b. Support /tips/<slug> matching to /<slug>
+    const strippedTipsPath = cleanPath.replace(/^\/tips/, '');
+    match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === strippedTipsPath);
+    if (match) return match;
+
+    // 2. Slug match (e.g. /jackpots/sportpesa-mega -> sportpesa-mega, /tips/mwanasoka-tips -> mwanasoka-tips)
     const segments = cleanPath.split('/').filter(Boolean);
     const lastSeg = segments[segments.length - 1];
 

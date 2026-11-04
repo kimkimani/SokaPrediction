@@ -5,7 +5,7 @@ shortTitle: "Sawa Predictions"
 badgeText: "Sawa Bet Prediction"
 description: "We are offering you Sawa bet predictions and tips today. Grab all the Sawa bet predictions with verified 1X2 tips, double chances, goal totals, and free banker.”
 keywords: "sawa bet prediction, sawa prediction, sawa tips, sawa bet"
-link: "/tips/sawa-bet-prediction-and-tips"
+link: "/sawa-bet-prediction-and-tips"
 type: "category"
 fixturesCategory: "sunpel"
 dateMode: "4_days_only"
