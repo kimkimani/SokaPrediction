@@ -19,6 +19,19 @@
     <meta name="twitter:image" content="/assets/brand-emblem.png" />
     <meta name="theme-color" content="#8D0E83" />
 
+    <!-- Instant Zero-Redirect Trailing Slash Normalization -->
+    <script>
+      (function() {
+        try {
+          var p = window.location.pathname;
+          if (p.length > 1 && p.endsWith('/')) {
+            var clean = p.replace(/\/+$/, '') + window.location.search + window.location.hash;
+            window.history.replaceState(window.history.state, document.title, clean);
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <!-- Favicons & Touch Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
