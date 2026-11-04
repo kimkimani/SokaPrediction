@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import {
   PredictionFixture,
   JackpotItem,
@@ -393,9 +393,31 @@ function AppLayout() {
   );
 }
 
+/**
+ * Normalizes incoming URLs to remove any trailing slash without triggering an HTTP redirect.
+ * When a user directly visits, refreshes, or follows a link with a trailing slash (e.g. /tips/mwanasoka-tips/),
+ * this immediately updates the browser URL bar to the clean non-slash version (/tips/mwanasoka-tips)
+ * using window.history.replaceState, avoiding server redirect chains and 301/308 status codes.
+ */
+function TrailingSlashNormalizer() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const pathname = location.pathname;
+    if (pathname !== '/' && pathname.endsWith('/')) {
+      const cleanPath = pathname.replace(/\/+$/, '') || '/';
+      const targetUrl = cleanPath + location.search + location.hash;
+      window.history.replaceState(null, '', targetUrl);
+    }
+  }, [location.pathname, location.search, location.hash]);
+
+  return null;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
+      <TrailingSlashNormalizer />
       <AppLayout />
     </BrowserRouter>
   );

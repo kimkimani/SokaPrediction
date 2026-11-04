@@ -337,9 +337,10 @@ export class MarkdownPageManager {
       const slug = filename.replace(/\.md$/, '');
       const { frontmatter, body } = parseFrontmatter(rawText);
 
-      // Clean link
+      // Clean link: enforce no trailing slash (root '/' remains '/')
       let link = frontmatter.link || `/${slug}`;
       if (!link.startsWith('/')) link = `/${link}`;
+      link = link === '/' ? '/' : link.replace(/\/+$/, '');
 
       const cleanTitle = (frontmatter.title || slug.replace(/-/g, ' ')).replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim();
       const cleanDisplayTitle = (frontmatter.displayTitle || cleanTitle).replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim();
@@ -632,9 +633,9 @@ export class MarkdownPageManager {
   static getJackpotLink(jackpotIdOrSlug: string): string {
     const page = this.getJackpotPage(jackpotIdOrSlug);
     if (page?.frontmatter?.link) {
-      return page.frontmatter.link;
+      return page.frontmatter.link.replace(/\/+$/, '');
     }
-    return `/jackpots/${jackpotIdOrSlug}`;
+    return `/jackpots/${jackpotIdOrSlug}`.replace(/\/+$/, '');
   }
 
   static generateSitemapXml(): string {
