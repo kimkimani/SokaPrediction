@@ -7,10 +7,10 @@ description: "Grab our mwanasoka daily tips today with verified 1X2 tips, double
 keywords: "mwanasoka tips, mwanasoka, mwana soka, mwanasoka daily tips today, mwanasoka predictions, mwanasoka com, mwanasoka tips today, mwanasoka free tips, mwana soka prediction"
 link: "/tips/mwanasoka-tips"
 type: "category"
-fixturesCategory: "sokapedia"
+fixturesCategory: "sunpel"
 dateMode: "4_days_only"
 navSection: "providers"
-sortOrder: 2
+sortOrder: 1
 introParagraph: "Grab our mwanasoka daily tips today with verified 1X2 tips, double chances, goal totals, and mwana soka Predictions free multi-banker. Mwanasoka football betting predictions and tips  gives you top form grounded games. Check below and get our for active matchdays and browse matches for today, and past verified results for the last 4 day window."
 listTitle: "Our Mwana Soka Predictions Matchday Fixtures"
 listSubtitle: "Grab elite soccer predictions for Mwanasoka from our trusted source."
