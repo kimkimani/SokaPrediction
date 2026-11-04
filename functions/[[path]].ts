@@ -28,6 +28,7 @@ export const onRequest = async (context: {
     const indexResponse = await context.env.ASSETS.fetch(new URL('/index.html', context.request.url));
     const newHeaders = new Headers(indexResponse.headers);
     newHeaders.set('content-type', 'text/html; charset=utf-8');
+    newHeaders.set('cache-control', 'no-cache, no-store, must-revalidate');
     newHeaders.delete('location');
 
     return new Response(indexResponse.body, {
@@ -36,5 +37,11 @@ export const onRequest = async (context: {
     });
   }
 
-  return response;
+  // For HTML responses, prevent caching stale redirects
+  const newHeaders = new Headers(response.headers);
+  newHeaders.set('cache-control', 'no-cache, no-store, must-revalidate');
+  return new Response(response.body, {
+    status: response.status,
+    headers: newHeaders,
+  });
 };

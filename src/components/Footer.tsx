@@ -160,10 +160,10 @@ export const Footer: React.FC = () => {
         <div className="pt-6 border-t border-gray-900 flex flex-col md:flex-row items-center justify-between gap-3 text-[11px] text-gray-500">
           <p>&copy; 2026 SOKA PREDICTIONS. Powered by <a href="https://sokaking.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white underline font-semibold">Sokaking</a> Engine.</p>
           <div className="flex items-center gap-2">
-            <span className="bg-red-950/70 text-red-400 border border-red-800/40 px-2 py-0.5 rounded font-black text-[10px]">
-              18+ ONLY
+            <span className="bg-emerald-950/70 text-emerald-400 border border-emerald-800/40 px-2 py-0.5 rounded font-black text-[10px]">
+              ALL AGES
             </span>
-            <span>Gamble Responsibly. Predictions carry inherent variance.</span>
+            <span>Sports Analytics &amp; Football Prediction Intelligence.</span>
           </div>
         </div>
       </div>
