@@ -317,8 +317,8 @@ export function resolveSectionsForJackpot(
   return { overviewHtml, sections };
 }
 
-// Load all markdown files dynamically via Vite's import.meta.glob
-const rawMarkdownFiles = import.meta.glob('/src/content/pages/*.md', {
+// Load all markdown files dynamically via Vite's import.meta.glob across root, tips/, and jackpots/
+const rawMarkdownFiles = import.meta.glob('/src/content/pages/**/*.md', {
   eager: true,
   query: '?raw',
   import: 'default',
@@ -337,10 +337,29 @@ export class MarkdownPageManager {
       const slug = filename.replace(/\.md$/, '');
       const { frontmatter, body } = parseFrontmatter(rawText);
 
-      // Clean link: enforce no trailing slash (root '/' remains '/')
-      let link = frontmatter.link || `/${slug}`;
+      // Determine directory category: tips, jackpots, or root
+      const relPath = path.replace(/^\/src\/content\/pages\//, '');
+      const parts = relPath.split('/');
+      const dirName = parts.length > 1 ? parts[0] : '';
+
+      // Clean link: folder structure dictates default path if not explicitly overridden
+      let link = frontmatter.link;
+      if (!link) {
+        if (dirName === 'tips') {
+          link = `/tips/${slug}`;
+        } else if (dirName === 'jackpots') {
+          link = `/jackpots/${slug}`;
+        } else {
+          link = slug === 'home' ? '/' : `/${slug}`;
+        }
+      }
       if (!link.startsWith('/')) link = `/${link}`;
       link = link === '/' ? '/' : link.replace(/\/+$/, '');
+
+      // Determine default type from folder structure if not set
+      let defaultType: MarkdownFrontmatter['type'] = 'static';
+      if (dirName === 'jackpots') defaultType = 'jackpot';
+      else if (dirName === 'tips') defaultType = 'category';
 
       const cleanTitle = (frontmatter.title || slug.replace(/-/g, ' ')).replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim();
       const cleanDisplayTitle = (frontmatter.displayTitle || cleanTitle).replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim();
@@ -360,7 +379,7 @@ export class MarkdownPageManager {
         keywords: frontmatter.keywords,
         link,
         slug,
-        type: frontmatter.type || 'static',
+        type: frontmatter.type || defaultType,
         jackpotId: frontmatter.jackpotId || slug,
         fixturesCategory: frontmatter.fixturesCategory,
         dateMode: frontmatter.dateMode,
@@ -411,16 +430,47 @@ export class MarkdownPageManager {
     const all = this.getAllPages();
     const cleanPath = path.split('?')[0].replace(/\/+$/, '') || '/';
 
-    // 1. Exact link match
+    // 1. Exact link match against frontmatter link
     let match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === cleanPath);
     if (match) return match;
 
-    // 1b. Support /tips/<slug> matching to /<slug>
-    const strippedTipsPath = cleanPath.replace(/^\/tips/, '');
-    match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === strippedTipsPath);
-    if (match) return match;
+    // 2. Cross-prefix tolerance for /tips/
+    if (cleanPath.startsWith('/tips/')) {
+      const strippedTipsPath = cleanPath.replace(/^\/tips/, '');
+      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === strippedTipsPath);
+      if (match) return match;
+    } else {
+      const withTipsPath = `/tips${cleanPath}`;
+      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === withTipsPath);
+      if (match) return match;
+    }
 
-    // 2. Slug match (e.g. /jackpots/sportpesa-mega -> sportpesa-mega, /tips/mwanasoka-tips -> mwanasoka-tips)
+    // 3. Cross-prefix tolerance for /jackpot/ and /jackpots/
+    if (cleanPath.startsWith('/jackpot/')) {
+      const pluralPath = cleanPath.replace(/^\/jackpot\//, '/jackpots/');
+      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === pluralPath);
+      if (match) return match;
+      const strippedJp = cleanPath.replace(/^\/jackpot\//, '/');
+      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === strippedJp);
+      if (match) return match;
+    } else if (cleanPath.startsWith('/jackpots/')) {
+      const singularPath = cleanPath.replace(/^\/jackpots\//, '/jackpot/');
+      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === singularPath);
+      if (match) return match;
+      const strippedJps = cleanPath.replace(/^\/jackpots\//, '/');
+      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === strippedJps);
+      if (match) return match;
+    } else {
+      // User accessed root /<slug> but page is under /jackpots/<slug> or /jackpot/<slug>
+      const withJackpots = `/jackpots${cleanPath}`;
+      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === withJackpots);
+      if (match) return match;
+      const withJackpot = `/jackpot${cleanPath}`;
+      match = all.find((p) => p.frontmatter.link.replace(/\/+$/, '') === withJackpot);
+      if (match) return match;
+    }
+
+    // 4. Slug & jackpotId match fallback
     const segments = cleanPath.split('/').filter(Boolean);
     const lastSeg = segments[segments.length - 1];
 
@@ -429,7 +479,7 @@ export class MarkdownPageManager {
       if (match) return match;
     }
 
-    // 3. Special root match
+    // 5. Special root match
     if (cleanPath === '/' || cleanPath === '') {
       return all.find((p) => p.slug === 'home') || null;
     }

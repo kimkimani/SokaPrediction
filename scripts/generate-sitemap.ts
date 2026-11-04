@@ -74,24 +74,51 @@ export function buildSitemapList(): SitemapEntry[] {
     });
   };
 
-  // Dynamic Markdown Discovery: Every single URL is generated ONLY from an existing file in src/content/pages/*.md
-  // If a markdown file is deleted, it is completely removed from sitemaps!
+  // Dynamic Markdown Discovery: Every single URL is generated from existing files in src/content/pages/ (including tips/ & jackpots/)
   const pagesDir = path.resolve(process.cwd(), 'src/content/pages');
+
+  function collectMarkdownFiles(dir: string, base: string = dir): Array<{ fullPath: string; relPath: string; filename: string; dirName: string }> {
+    let list: Array<{ fullPath: string; relPath: string; filename: string; dirName: string }> = [];
+    if (!fs.existsSync(dir)) return list;
+    const items = fs.readdirSync(dir, { withFileTypes: true });
+    for (const item of items) {
+      const full = path.join(dir, item.name);
+      if (item.isDirectory()) {
+        list = list.concat(collectMarkdownFiles(full, base));
+      } else if (item.isFile() && item.name.endsWith('.md')) {
+        const rel = path.relative(base, full);
+        const dirName = path.dirname(rel) === '.' ? '' : path.dirname(rel);
+        list.push({ fullPath: full, relPath: rel, filename: item.name, dirName });
+      }
+    }
+    return list;
+  }
+
   if (fs.existsSync(pagesDir)) {
-    const mdFiles = fs.readdirSync(pagesDir).filter((f) => f.endsWith('.md'));
+    const mdFiles = collectMarkdownFiles(pagesDir);
     for (const file of mdFiles) {
       try {
-        const filePath = path.join(pagesDir, file);
-        const raw = fs.readFileSync(filePath, 'utf-8');
+        const raw = fs.readFileSync(file.fullPath, 'utf-8');
         const fm = parseFrontmatter(raw);
-        const slug = file.replace(/\.md$/, '');
-        let link = fm.link || `/${slug}`;
+        const slug = file.filename.replace(/\.md$/, '');
+
+        // Determine link from frontmatter or directory hierarchy
+        let link = fm.link;
+        if (!link) {
+          if (file.dirName === 'tips') {
+            link = `/tips/${slug}`;
+          } else if (file.dirName === 'jackpots') {
+            link = `/jackpots/${slug}`;
+          } else {
+            link = slug === 'home' ? '/' : `/${slug}`;
+          }
+        }
         if (!link.startsWith('/')) link = `/${link}`;
 
         // Don't add legacy /254-sure redirect path to public sitemap
         if (link.includes('254-sure')) continue;
 
-        const type = fm.type || 'static';
+        const type = fm.type || (file.dirName === 'jackpots' ? 'jackpot' : file.dirName === 'tips' ? 'category' : 'static');
         const isHome = slug === 'home' || link === '/';
         const isHighValue = ['tip-of-the-day', 'jackpot-list', 'vip-packages', 'free-predictions', 'sure-odds-packs'].includes(slug);
         const priority =
@@ -116,7 +143,7 @@ export function buildSitemapList(): SitemapEntry[] {
 
         addEntry(link, priority, changefreq, fm.lastmod || TODAY_STR);
       } catch (err) {
-        console.warn(`[Sitemap] Skipping ${file} due to read error:`, err);
+        console.warn(`[Sitemap] Skipping ${file.relPath} due to read error:`, err);
       }
     }
   }

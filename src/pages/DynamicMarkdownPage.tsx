@@ -204,7 +204,7 @@ export const DynamicMarkdownPage: React.FC<DynamicMarkdownPageProps> = ({
             </button>
 
             <Link
-              to="/jackpots/sportpesa-mega"
+              to={MarkdownPageManager.getJackpotLink('sportpesa-mega')}
               className="px-3.5 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-semibold border border-gray-200 transition flex items-center gap-1.5"
             >
               <i className="fas fa-trophy text-amber-500 text-xs"></i>

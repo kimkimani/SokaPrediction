@@ -33,27 +33,83 @@ export function getSeoForUrl(rawUrl: string): SeoMetadata | null {
   const pagesDir = path.resolve(process.cwd(), 'src/content/pages');
   if (!fs.existsSync(pagesDir)) return null;
 
-  const files = fs.readdirSync(pagesDir).filter((f) => f.endsWith('.md'));
+  function collectMarkdownFiles(dir: string, base: string = dir): Array<{ fullPath: string; relPath: string; filename: string; dirName: string }> {
+    let list: Array<{ fullPath: string; relPath: string; filename: string; dirName: string }> = [];
+    if (!fs.existsSync(dir)) return list;
+    const items = fs.readdirSync(dir, { withFileTypes: true });
+    for (const item of items) {
+      const full = path.join(dir, item.name);
+      if (item.isDirectory()) {
+        list = list.concat(collectMarkdownFiles(full, base));
+      } else if (item.isFile() && item.name.endsWith('.md')) {
+        const rel = path.relative(base, full);
+        const dirName = path.dirname(rel) === '.' ? '' : path.dirname(rel);
+        list.push({ fullPath: full, relPath: rel, filename: item.name, dirName });
+      }
+    }
+    return list;
+  }
+
+  const files = collectMarkdownFiles(pagesDir);
 
   const pages: SeoMetadata[] = files.map((file) => {
-    const raw = fs.readFileSync(path.join(pagesDir, file), 'utf-8');
+    const raw = fs.readFileSync(file.fullPath, 'utf-8');
     const fm = parseFrontmatter(raw);
-    const slug = file.replace(/\.md$/, '');
-    let link = fm.link || `/${slug}`;
+    const slug = file.filename.replace(/\.md$/, '');
+    let link = fm.link;
+    if (!link) {
+      if (file.dirName === 'tips') {
+        link = `/tips/${slug}`;
+      } else if (file.dirName === 'jackpots') {
+        link = `/jackpots/${slug}`;
+      } else {
+        link = slug === 'home' ? '/' : `/${slug}`;
+      }
+    }
     if (!link.startsWith('/')) link = `/${link}`;
-    return { file, slug, fm, link };
+    return { file: file.filename, slug, fm, link };
   });
 
   // 1. Exact link match
   let match = pages.find((p) => p.link.replace(/\/+$/, '') === cleanPath);
   if (match) return match;
 
-  // 1b. Support /tips/<slug> matching to /<slug>
-  const strippedTipsPath = cleanPath.replace(/^\/tips/, '');
-  match = pages.find((p) => p.link.replace(/\/+$/, '') === strippedTipsPath);
-  if (match) return match;
+  // 2. Cross-prefix tolerance for /tips/
+  if (cleanPath.startsWith('/tips/')) {
+    const strippedTipsPath = cleanPath.replace(/^\/tips/, '');
+    match = pages.find((p) => p.link.replace(/\/+$/, '') === strippedTipsPath);
+    if (match) return match;
+  } else {
+    const withTipsPath = `/tips${cleanPath}`;
+    match = pages.find((p) => p.link.replace(/\/+$/, '') === withTipsPath);
+    if (match) return match;
+  }
 
-  // 2. Slug or jackpotId match (e.g. /jackpots/mozzart-super-daily -> mozzart-super-daily)
+  // 3. Cross-prefix tolerance for /jackpot/ and /jackpots/
+  if (cleanPath.startsWith('/jackpot/')) {
+    const pluralPath = cleanPath.replace(/^\/jackpot\//, '/jackpots/');
+    match = pages.find((p) => p.link.replace(/\/+$/, '') === pluralPath);
+    if (match) return match;
+    const strippedJp = cleanPath.replace(/^\/jackpot\//, '/');
+    match = pages.find((p) => p.link.replace(/\/+$/, '') === strippedJp);
+    if (match) return match;
+  } else if (cleanPath.startsWith('/jackpots/')) {
+    const singularPath = cleanPath.replace(/^\/jackpots\//, '/jackpot/');
+    match = pages.find((p) => p.link.replace(/\/+$/, '') === singularPath);
+    if (match) return match;
+    const strippedJps = cleanPath.replace(/^\/jackpots\//, '/');
+    match = pages.find((p) => p.link.replace(/\/+$/, '') === strippedJps);
+    if (match) return match;
+  } else {
+    const withJackpots = `/jackpots${cleanPath}`;
+    match = pages.find((p) => p.link.replace(/\/+$/, '') === withJackpots);
+    if (match) return match;
+    const withJackpot = `/jackpot${cleanPath}`;
+    match = pages.find((p) => p.link.replace(/\/+$/, '') === withJackpot);
+    if (match) return match;
+  }
+
+  // 4. Slug or jackpotId match (e.g. /jackpots/mozzart-super-daily -> mozzart-super-daily)
   const segments = cleanPath.split('/').filter(Boolean);
   const lastSeg = segments[segments.length - 1];
   if (lastSeg) {
@@ -61,7 +117,7 @@ export function getSeoForUrl(rawUrl: string): SeoMetadata | null {
     if (match) return match;
   }
 
-  // 3. Home match
+  // 5. Home match
   if (cleanPath === '/' || cleanPath === '') {
     return pages.find((p) => p.slug === 'home') || null;
   }
