@@ -148,7 +148,7 @@ export const JackpotsListPage: React.FC<JackpotsListPageProps> = ({
                 {/* Card Actions */}
                 <div className="p-4 px-5 bg-gray-50 border-t border-gray-100 flex items-center justify-between gap-3">
                   <Link
-                    to={MarkdownPageManager.getJackpotLink(jp.slug || jp.id)}
+                    to={`/jackpots/${jp.slug || jp.id}`}
                     className="flex-1 py-2.5 px-3 rounded-lg border border-[#8D0E83] text-[#8D0E83] hover:bg-purple-50 font-bold text-xs text-center transition flex items-center justify-center gap-1.5"
                   >
                     <i className="fas fa-eye text-xs"></i>

@@ -576,11 +576,11 @@ export class MarkdownPageManager {
       });
     }
 
-    const megaJpPage = this.getJackpotPage('sportpesa-mega');
+    const megaJpPage = this.getPageByPath('/jackpots/sportpesa-mega');
     if (megaJpPage) {
       items.push({
         label: 'Mega JP',
-        path: megaJpPage.frontmatter.link,
+        path: '/jackpots/sportpesa-mega',
         icon: 'fas fa-trophy text-amber-500 text-[10px]',
       });
     }
@@ -610,31 +610,6 @@ export class MarkdownPageManager {
   // Returns jackpot pages
   static getJackpotPages(): MarkdownPageData[] {
     return this.getAllPages().filter((p) => p.frontmatter.type === 'jackpot');
-  }
-
-  // Finds the markdown page for a given jackpot ID or slug
-  static getJackpotPage(jackpotIdOrSlug: string): MarkdownPageData | null {
-    if (!jackpotIdOrSlug) return null;
-    const cleanId = jackpotIdOrSlug.toLowerCase().trim();
-    const all = this.getAllPages();
-    return (
-      all.find(
-        (p) =>
-          p.frontmatter.type === 'jackpot' &&
-          ((p.frontmatter.jackpotId && p.frontmatter.jackpotId.toLowerCase() === cleanId) ||
-            p.slug.toLowerCase() === cleanId ||
-            p.frontmatter.link.toLowerCase().endsWith(`/${cleanId}`))
-      ) || null
-    );
-  }
-
-  // Resolves the link for any jackpot ID or slug dynamically from markdown files
-  static getJackpotLink(jackpotIdOrSlug: string): string {
-    const page = this.getJackpotPage(jackpotIdOrSlug);
-    if (page?.frontmatter?.link) {
-      return page.frontmatter.link;
-    }
-    return `/jackpots/${jackpotIdOrSlug}`;
   }
 
   static generateSitemapXml(): string {

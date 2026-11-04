@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { JackpotItem } from '../types';
-import { MarkdownPageManager } from '../services/markdownManager';
 import { ApiLoadingState } from './ApiLoadingState';
 
 interface JackpotSectionProps {
@@ -53,7 +52,7 @@ export const JackpotSection: React.FC<JackpotSectionProps> = ({
 
         <div className="flex items-center gap-2">
           <Link
-            to={MarkdownPageManager.getJackpotLink(activeJackpot.slug || activeJackpot.id)}
+            to={`/jackpots/${activeJackpot.slug || activeJackpot.id}`}
             className="text-xs font-bold text-[#8D0E83] hover:text-[#630A5C] flex items-center gap-1 bg-purple-50 hover:bg-purple-100 px-2.5 py-1.5 rounded-md border border-purple-200 transition"
           >
             <i className="fas fa-expand-alt text-[10px]"></i>
@@ -108,7 +107,7 @@ export const JackpotSection: React.FC<JackpotSectionProps> = ({
         {/* Action Buttons */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-gray-100">
           <Link
-            to={MarkdownPageManager.getJackpotLink(activeJackpot.slug || activeJackpot.id)}
+            to={`/jackpots/${activeJackpot.slug || activeJackpot.id}`}
             className="py-3 px-4 rounded-lg border-2 border-[#8D0E83] text-[#8D0E83] hover:bg-purple-50 text-sm font-bold transition flex items-center justify-center gap-2"
           >
             <i className="fas fa-list-ol text-xs"></i>

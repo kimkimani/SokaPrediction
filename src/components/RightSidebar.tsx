@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { JackpotItem, PredictionFixture } from '../types';
-import { MarkdownPageManager } from '../services/markdownManager';
 
 interface RightSidebarProps {
   jackpots?: JackpotItem[];
@@ -168,7 +167,7 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
             topJackpots.map((jp) => (
               <Link
                 key={jp.id || jp.slug}
-                to={MarkdownPageManager.getJackpotLink(jp.slug || jp.id)}
+                to={`/jackpots/${jp.slug || jp.id}`}
                 className="block p-2 rounded-lg border border-gray-100 hover:border-purple-300 hover:bg-purple-50/40 transition group"
               >
                 <div className="flex items-center justify-between mb-1">

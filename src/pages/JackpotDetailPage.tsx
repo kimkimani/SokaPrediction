@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useParams, Link, useLocation } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { JackpotItem, PredictionFixture } from '../types';
 import { CheerplexApiService } from '../services/api';
 import {
@@ -21,7 +21,6 @@ export const JackpotDetailPage: React.FC<JackpotDetailPageProps> = ({
   jackpots,
   onOpenPaymentModal,
 }) => {
-  const location = useLocation();
   const { slug } = useParams<{ slug: string }>();
   const [jackpot, setJackpot] = useState<JackpotItem | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,32 +33,25 @@ export const JackpotDetailPage: React.FC<JackpotDetailPageProps> = ({
   const [resolvedOverviewHtml, setResolvedOverviewHtml] = useState<string>('');
   const [resolvedSections, setResolvedSections] = useState<MarkdownSection[]>([]);
 
-  // 1. Fetch Jackpot and associated Markdown file (decoupled link from jackpotId)
+  // 1. Fetch Jackpot and associated Markdown file
   useEffect(() => {
+    if (!slug) return;
     setLoading(true);
 
     const loadData = async () => {
-      // Find Markdown Page by current path, by /jackpots/:slug, or by jackpotId/slug
+      // Find Markdown Page
       const allPages = MarkdownPageManager.getAllPages();
       const page =
-        MarkdownPageManager.getPageByPath(location.pathname) ||
-        (slug ? MarkdownPageManager.getPageByPath(`/jackpots/${slug}`) : null) ||
-        (slug ? allPages.find((p) => p.slug === slug || p.frontmatter.jackpotId === slug) : null) ||
+        MarkdownPageManager.getPageByPath(`/jackpots/${slug}`) ||
+        allPages.find(
+          (p) => p.slug === slug || p.frontmatter.jackpotId === slug
+        ) ||
         null;
       setMarkdownPage(page);
 
-      // Decouple URL link from jackpot slug/id:
-      // The jackpot to load comes from frontmatter.jackpotId, or falls back to page.slug or route slug
-      const targetJackpotId = page?.frontmatter?.jackpotId || page?.slug || slug || '';
-
-      if (!targetJackpotId) {
-        setLoading(false);
-        return;
-      }
-
       // Find Jackpot Item
       try {
-        const found = await CheerplexApiService.getJackpotById(targetJackpotId);
+        const found = await CheerplexApiService.getJackpotById(slug);
         if (found) {
           setJackpot(found);
           if (page) {
@@ -68,7 +60,7 @@ export const JackpotDetailPage: React.FC<JackpotDetailPageProps> = ({
             setResolvedSections(sections);
           }
         } else {
-          const fallback = jackpots.find((j) => j.slug === targetJackpotId || j.id === targetJackpotId || (slug && (j.slug === slug || j.id === slug)));
+          const fallback = jackpots.find((j) => j.slug === slug || j.id === slug);
           if (fallback) {
             setJackpot(fallback);
             if (page) {
@@ -80,7 +72,7 @@ export const JackpotDetailPage: React.FC<JackpotDetailPageProps> = ({
         }
       } catch (err) {
         console.warn('Failed loading single jackpot', err);
-        const fallback = jackpots.find((j) => j.slug === targetJackpotId || j.id === targetJackpotId || (slug && (j.slug === slug || j.id === slug)));
+        const fallback = jackpots.find((j) => j.slug === slug || j.id === slug);
         if (fallback) {
           setJackpot(fallback);
           if (page) {
@@ -96,7 +88,7 @@ export const JackpotDetailPage: React.FC<JackpotDetailPageProps> = ({
 
     loadData();
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [slug, location.pathname, jackpots]);
+  }, [slug, jackpots]);
 
   const fixtures = useMemo(() => {
     return jackpot?.fixtures || jackpot?.games || [];
@@ -200,7 +192,7 @@ export const JackpotDetailPage: React.FC<JackpotDetailPageProps> = ({
   }
 
   if (!markdownPage) {
-    return <PageNotFound path={location.pathname} />;
+    return <PageNotFound path={`/jackpots/${slug}`} />;
   }
 
   if (!jackpot) {
@@ -209,7 +201,7 @@ export const JackpotDetailPage: React.FC<JackpotDetailPageProps> = ({
         <i className="fas fa-exclamation-circle text-4xl text-amber-500 mb-3 block"></i>
         <h2 className="text-lg font-bold text-gray-800 mb-2">Jackpot Not Found</h2>
         <p className="text-xs text-gray-500 mb-4">
-          The requested jackpot coupon &quot;{slug || location.pathname}&quot; could not be retrieved. Please check back shortly.
+          The requested jackpot coupon &quot;{slug}&quot; could not be retrieved. Please check back shortly.
         </p>
         <Link
           to="/jackpot-predictions"
@@ -763,11 +755,11 @@ export const JackpotDetailPage: React.FC<JackpotDetailPageProps> = ({
         </h4>
         <div className="flex flex-wrap gap-2">
           {jackpots
-            .filter((j) => j.slug !== jackpot.slug && j.id !== jackpot.id)
+            .filter((j) => j.slug !== jackpot.slug)
             .map((other) => (
               <Link
                 key={other.id || other.slug}
-                to={MarkdownPageManager.getJackpotLink(other.id || other.slug)}
+                to={`/jackpots/${other.slug || other.id}`}
                 className="px-3 py-1.5 rounded-lg bg-gray-50 hover:bg-purple-50 border border-gray-200 hover:border-[#8D0E83] text-xs font-bold text-gray-800 hover:text-[#8D0E83] transition flex items-center gap-2 shadow-2xs"
               >
                 <i className="fas fa-trophy text-amber-500 text-[10px]"></i>
