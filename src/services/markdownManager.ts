@@ -337,12 +337,9 @@ export class MarkdownPageManager {
       const slug = filename.replace(/\.md$/, '');
       const { frontmatter, body } = parseFrontmatter(rawText);
 
-      // Clean link (guarantee no trailing slash)
+      // Clean link
       let link = frontmatter.link || `/${slug}`;
       if (!link.startsWith('/')) link = `/${link}`;
-      if (link.length > 1 && link.endsWith('/')) {
-        link = link.replace(/\/+$/, '');
-      }
 
       const cleanTitle = (frontmatter.title || slug.replace(/-/g, ' ')).replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim();
       const cleanDisplayTitle = (frontmatter.displayTitle || cleanTitle).replace(/\s*\|\s*SOKAPREDICTIONS/gi, '').trim();
@@ -579,11 +576,11 @@ export class MarkdownPageManager {
       });
     }
 
-    const megaJpPage = this.getPageByPath('/jackpots/sportpesa-mega');
+    const megaJpPage = this.getJackpotPage('sportpesa-mega');
     if (megaJpPage) {
       items.push({
         label: 'Mega JP',
-        path: '/jackpots/sportpesa-mega',
+        path: megaJpPage.frontmatter.link,
         icon: 'fas fa-trophy text-amber-500 text-[10px]',
       });
     }
@@ -635,9 +632,9 @@ export class MarkdownPageManager {
   static getJackpotLink(jackpotIdOrSlug: string): string {
     const page = this.getJackpotPage(jackpotIdOrSlug);
     if (page?.frontmatter?.link) {
-      return page.frontmatter.link.replace(/\/+$/, '');
+      return page.frontmatter.link;
     }
-    return `/jackpots/${jackpotIdOrSlug}`.replace(/\/+$/, '');
+    return `/jackpots/${jackpotIdOrSlug}`;
   }
 
   static generateSitemapXml(): string {

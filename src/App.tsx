@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import {
   PredictionFixture,
   JackpotItem,
@@ -30,28 +30,6 @@ import { DynamicMarkdownPage } from './pages/DynamicMarkdownPage';
 import { ContactView as ContactPage } from './components/ContactView';
 import { AboutView as AboutPage } from './components/AboutView';
 import { SeoManager } from './components/SeoManager';
-
-/**
- * TrailingSlashRemover
- * Automatically removes any trailing slash from the browser URL bar
- * using window.history.replaceState (zero HTTP redirect, zero reload, pure client-side).
- */
-const TrailingSlashRemover: React.FC = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.pathname.length > 1 && location.pathname.endsWith('/')) {
-      const cleanPath = location.pathname.replace(/\/+$/, '');
-      window.history.replaceState(
-        window.history.state,
-        document.title,
-        cleanPath + location.search + location.hash
-      );
-    }
-  }, [location.pathname, location.search, location.hash]);
-
-  return null;
-};
 
 function AppLayout() {
   const navigate = useNavigate();
@@ -206,12 +184,9 @@ function AppLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 flex flex-col font-sans w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen bg-white text-gray-900 flex flex-col font-sans">
       {/* Dynamic SEO & Canonical Link Synchronizer */}
       <SeoManager />
-
-      {/* Instant Zero-Redirect Trailing Slash Cleaner */}
-      <TrailingSlashRemover />
 
       {/* Universal Top Navigation Header (Desktop Navigation & Mobile Menu) */}
       <Header
@@ -235,7 +210,7 @@ function AppLayout() {
         />
 
         {/* Center Main Content Area */}
-        <main className="main-content min-w-0 pb-16 lg:pb-12 px-3 sm:px-4 lg:px-5 pt-2 md:pt-3 w-full max-w-full overflow-x-hidden">
+        <main className="main-content min-w-0 pb-16 lg:pb-12 px-3 sm:px-4 lg:px-5 pt-2 md:pt-3 w-full">
           {/* Dynamic Multi-Page Routes */}
           <Routes>
             <Route
@@ -271,27 +246,9 @@ function AppLayout() {
                 />
               }
             />
-            {/* Direct rendering without any redirect */}
-            <Route
-              path="/jackpots"
-              element={
-                <JackpotsListPage
-                  jackpots={jackpots}
-                  loading={loadingJackpots}
-                  onOpenPaymentModal={openCustomPaymentModal}
-                />
-              }
-            />
-            <Route
-              path="/jackpot"
-              element={
-                <JackpotsListPage
-                  jackpots={jackpots}
-                  loading={loadingJackpots}
-                  onOpenPaymentModal={openCustomPaymentModal}
-                />
-              }
-            />
+            {/* Fallback redirects for legacy links */}
+            <Route path="/jackpots" element={<Navigate to="/jackpot-predictions" replace />} />
+            <Route path="/jackpot" element={<Navigate to="/jackpot-predictions" replace />} />
 
             {/* Dedicated Individual Jackpot Working Page */}
             <Route
@@ -318,28 +275,8 @@ function AppLayout() {
               }
             />
 
-            {/* Sitemap page directly renders Home view without any redirect */}
-            <Route
-              path="/sitemap"
-              element={
-                <HomePage
-                  fixtures={fixtures}
-                  loadingFixtures={loadingFixtures}
-                  dateFilter={dateFilter}
-                  setDateFilter={handleDateFilterChange}
-                  categoryFilter={categoryFilter}
-                  setCategoryFilter={handleCategoryFilterChange}
-                  onRefreshPredictions={() => loadPredictions(categoryFilter, dateFilter)}
-                  jackpots={jackpots}
-                  loadingJackpots={loadingJackpots}
-                  onOpenJackpotDetail={(jp) => setSelectedJackpotModal(jp)}
-                  vipPackages={vipPackages}
-                  oddsPacks={oddsPacks}
-                  onOpenPaymentModal={openCustomPaymentModal}
-                  onOpenDefaultVipModal={openDefaultVipModal}
-                />
-              }
-            />
+            {/* Sitemap page removed as requested - redirect to home */}
+            <Route path="/sitemap" element={<Navigate to="/" replace />} />
 
             {/* VIP Packages Dedicated Page */}
             <Route
@@ -378,19 +315,11 @@ function AppLayout() {
             />
             <Route
               path="/254-sure-premium-odds-and-tips"
-              element={
-                <SureOddsPage
-                  oddsPacks={oddsPacks}
-                  loading={loadingOdds}
-                  onOpenPaymentModal={openCustomPaymentModal}
-                />
-              }
+              element={<Navigate to="/sure-premium-odds-and-tips" replace />}
             />
 
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/about-us" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/contact-us" element={<ContactPage />} />
 
             {/* Universal Dynamic Markdown Page Resolver */}
             {/* Matches ANY nested or top-level path (e.g. /tips/sunpel, /tips/sokapedia, /tips/predictz, /over-1-5-prediction-tips, /today-tips-and-predictions) */}

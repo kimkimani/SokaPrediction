@@ -16,6 +16,7 @@ import { FaqAccordion, FaqItem } from '../components/FaqAccordion';
 import { MarkdownArticleBlock } from '../components/MarkdownArticleBlock';
 import { PageNotFound } from '../components/PageNotFound';
 import { ApiLoadingState } from '../components/ApiLoadingState';
+import { JackpotDetailPage } from './JackpotDetailPage';
 
 interface DynamicMarkdownPageProps {
   jackpots: JackpotItem[];
@@ -31,11 +32,10 @@ export const DynamicMarkdownPage: React.FC<DynamicMarkdownPageProps> = ({
   onOpenPaymentModal,
 }) => {
   const location = useLocation();
-  const initialPage = MarkdownPageManager.getPageByPath(location.pathname);
-  const [pageData, setPageData] = useState<MarkdownPageData | null>(initialPage);
+  const [pageData, setPageData] = useState<MarkdownPageData | null>(null);
   const [groupedFixtures, setGroupedFixtures] = useState<DateGroupedFixtures[]>([]);
-  const [resolvedOverviewHtml, setResolvedOverviewHtml] = useState<string>(() => initialPage?.overviewHtml || '');
-  const [resolvedSections, setResolvedSections] = useState<MarkdownSection[]>(() => initialPage?.sections || []);
+  const [resolvedOverviewHtml, setResolvedOverviewHtml] = useState<string>('');
+  const [resolvedSections, setResolvedSections] = useState<MarkdownSection[]>([]);
   const [loadingFixtures, setLoadingFixtures] = useState(false);
 
   useEffect(() => {
@@ -47,13 +47,6 @@ export const DynamicMarkdownPage: React.FC<DynamicMarkdownPageProps> = ({
     setPageData(found);
 
     if (found) {
-      // Dynamic SEO Meta updates
-      document.title = found.frontmatter.title || 'SOKA PREDICTIONS';
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute('content', found.frontmatter.description || '');
-      }
-
       // 1. If Jackpot page, resolve jackpot shortcodes
       if (found.frontmatter.type === 'jackpot') {
         const jId = found.frontmatter.jackpotId || found.slug;
@@ -91,6 +84,16 @@ export const DynamicMarkdownPage: React.FC<DynamicMarkdownPageProps> = ({
 
   if (!pageData) {
     return <PageNotFound path={location.pathname} />;
+  }
+
+  // If this markdown page is of type jackpot, render the dedicated JackpotDetailPage
+  if (pageData.frontmatter.type === 'jackpot') {
+    return (
+      <JackpotDetailPage
+        jackpots={jackpots}
+        onOpenPaymentModal={onOpenPaymentModal}
+      />
+    );
   }
 
   const { frontmatter } = pageData;

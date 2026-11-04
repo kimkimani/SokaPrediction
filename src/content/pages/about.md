@@ -1,5 +1,5 @@
 ---
-title: "About Soka Predictions - Kenya Premier Sports Analytics"
+title: "About SokaPredictions | Kenya Premier Sports Analytics"
 displayTitle: "About SOKA PREDICTIONS Predictions"
 description: "Learn about SokaPredictions, Kenya's premier data-driven football prediction intelligence platform powered by the Sokaking sports analytics engine."
 keywords: "about soka predictions, kenya betting analysis, soccer prediction engine, sokaking"

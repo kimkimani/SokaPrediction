@@ -60,8 +60,7 @@ export function buildSitemapList(): SitemapEntry[] {
     changefreq: SitemapEntry['changefreq'] = 'daily',
     lastmod: string = TODAY_STR
   ) => {
-    const rawClean = urlPath.startsWith('/') ? urlPath : `/${urlPath}`;
-    const cleanPath = rawClean === '/' ? '/' : rawClean.replace(/\/+$/, '');
+    const cleanPath = urlPath.startsWith('/') ? urlPath : `/${urlPath}`;
     if (visitedPaths.has(cleanPath)) return;
     visitedPaths.add(cleanPath);
 

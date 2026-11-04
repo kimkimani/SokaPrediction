@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { MarkdownPageManager } from '../services/markdownManager';
 
 interface HeroSectionProps {
   onScrollToPredictions: () => void;
@@ -72,13 +74,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <span>Get VIP Banker Slips (KES 200)</span>
           </button>
 
-          <a
-            href="/jackpots/sportpesa-mega"
+          <Link
+            to={MarkdownPageManager.getJackpotLink('sportpesa-mega')}
             className="px-3.5 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-semibold border border-gray-200 transition flex items-center gap-1.5"
           >
             <i className="fas fa-trophy text-amber-500 text-xs"></i>
             <span>SportPesa Mega Jackpot (17 Games)</span>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

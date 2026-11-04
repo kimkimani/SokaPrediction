@@ -1,15 +1,9 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-<<<<<<< HEAD
-import {defineConfig} from 'vite';
-
-export default defineConfig(() => {
-  return {
-    plugins: [react(), tailwindcss()],
-=======
 import {defineConfig, Plugin} from 'vite';
 import {writeSitemaps} from './scripts/generate-sitemap.ts';
+import {htmlSeoPlugin} from './scripts/html-seo-plugin.ts';
 
 function sitemapBuildPlugin(): Plugin {
   return {
@@ -33,8 +27,7 @@ function sitemapBuildPlugin(): Plugin {
 
 export default defineConfig(() => {
   return {
-    plugins: [sitemapBuildPlugin(), react(), tailwindcss()],
->>>>>>> parent of 376b7c7 (refactor: standardize routing and SEO via MarkdownManager)
+    plugins: [sitemapBuildPlugin(), htmlSeoPlugin(), react(), tailwindcss()],
     resolve: {
       alias: {
         '@': path.resolve(import.meta.dirname, '.'),
